@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/login_Fragment">
+
+    <fragment
+        android:id="@+id/login_Fragment"
+        android:name="com.example.opp_e2guana.login_Fragment"
+        android:label="fragment_login_"
+        tools:layout="@layout/fragment_login_" >
+        <action
+            android:id="@+id/action_login_Fragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
+        <action
+            android:id="@+id/action_login_Fragment_to_friendlistFragment"
+            app:destination="@id/friendlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signinFragment"
+        android:name="com.example.opp_e2guana.signinFragment"
+        android:label="fragment_signin"
+        tools:layout="@layout/fragment_signin" >
+        <action
+            android:id="@+id/action_signinFragment_to_friendlistFragment"
+            app:destination="@id/friendlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendlistFragment"
+        android:name="com.example.opp_e2guana.friendlistFragment"
+        android:label="fragment_friendlist"
+        tools:layout="@layout/fragment_friendlist" >
+        <action
+            android:id="@+id/action_friendlistFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_friendlistFragment_to_show_locationFragment"
+            app:destination="@id/show_locationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.opp_e2guana.chatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_show_locationFragment"
+            app:destination="@id/show_locationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_settingFragment"
+        android:name="com.example.opp_e2guana.profile_settingFragment"
+        android:label="fragment_profile_setting"
+        tools:layout="@layout/fragment_profile_setting" />
+    <fragment
+        android:id="@+id/show_locationFragment"
+        android:name="com.example.opp_e2guana.show_locationFragment"
+        android:label="fragment_show_location"
+        tools:layout="@layout/fragment_show_location" />
+</navigation>
