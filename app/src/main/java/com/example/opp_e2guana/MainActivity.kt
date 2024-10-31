@@ -19,18 +19,5 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        //var buttonState: Boolean = false
-        var text1: TextView = findViewById(R.id.textView)
-        val testButton: Button = findViewById(R.id.JUNG_testbutton)
-
-        testButton.setOnClickListener {
-            text1.text = "버튼 확인"
-        }
-//        if(buttonState) {
-//            text1.text = "텍스트 true"
-//        } else {
-//            text1.text = "텍스트 false"
-//        }
-
     }
 }
