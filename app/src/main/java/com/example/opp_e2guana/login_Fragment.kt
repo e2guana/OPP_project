@@ -1,17 +1,14 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -35,11 +32,11 @@ class login_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.loginButton?.setOnClickListener {
-            findNavController().navigate(R.id.action_login_Fragment_to_friendlistFragment)
+        binding?.loginButton?.setOnClickListener {                                              //로그인 버튼
+            findNavController().navigate(R.id.action_login_Fragment_to_signinFragment)
         }
 
-        binding?.signupMoveButton?.setOnClickListener {
+        binding?.signupMoveButton?.setOnClickListener {                                        //회원가입 버튼
             findNavController().navigate(R.id.action_login_Fragment_to_signinFragment)
         }
     }
