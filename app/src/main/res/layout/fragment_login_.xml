@@ -76,17 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/signup_move_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F2BD6D"
-            android:text="회원가입"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
+        <!-- 로그인 버튼을 먼저 위치시킴 -->
         <Button
             android:id="@+id/login_button"
             android:layout_width="match_parent"
@@ -95,6 +85,18 @@
             android:text="로그인"
             android:textAlignment="center"
             android:textAllCaps="false"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- 회원가입 버튼을 그 아래에 위치시킴 -->
+        <Button
+            android:id="@+id/signup_move_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F2BD6D"
+            android:text="회원가입"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
