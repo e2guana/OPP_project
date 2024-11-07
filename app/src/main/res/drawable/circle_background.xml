@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:width="100dp" android:height="100dp"/> <!-- 버튼 크기 -->
+    <corners android:radius="50dp" /> <!-- 반지름을 크기의 절반으로 설정하여 원형으로 만듭니다 -->
+</shape>
+    <!-- 원형 프로필 버튼을 위한 리소스 파일입니다 -->

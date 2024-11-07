@@ -19,7 +19,6 @@ class login_Fragment : Fragment() {
 
     var binding: FragmentLoginBinding? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
