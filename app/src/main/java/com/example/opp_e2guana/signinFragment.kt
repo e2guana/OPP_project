@@ -34,6 +34,7 @@ class signinFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // signupButton 클릭 시 friendlistFragment로 이동
         binding?.signupButton?.setOnClickListener {
             findNavController().navigate(R.id.action_signinFragment_to_friendlistFragment)
@@ -43,6 +44,11 @@ class signinFragment : Fragment() {
         binding?.backButton?.setOnClickListener {
             findNavController().navigate(R.id.action_signinFragment_to_login_Fragment)
         }
+
+        binding?.signupButton?.setOnClickListener {
+            findNavController().navigate(R.id.action_signinFragment_to_friendlistFragment)
+        }
+
     }
 
 
