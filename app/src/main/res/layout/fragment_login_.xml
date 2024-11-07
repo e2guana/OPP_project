@@ -64,6 +64,42 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <!-- 이메일 형식 오류 메시지 박스 (초기 상태에서 숨김) -->
+    <LinearLayout
+        android:id="@+id/errorMessageBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:visibility="gone">  <!-- 처음에는 숨김 -->
+
+        <!-- 이메일 형식 오류 메시지 -->
+        <TextView
+            android:id="@+id/emailErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="올바른 이메일 형식이 아닙니다"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            android:gravity="center" />
+
+        <!-- 닫기 버튼 -->
+        <Button
+            android:id="@+id/closeErrorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F2BD6D"
+            android:text="닫기"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
     <!-- 하단 회원가입 및 로그인 버튼 레이아웃 -->
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -78,7 +114,7 @@
 
         <!-- 로그인 버튼을 먼저 위치시킴 -->
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#F2BD6D"
@@ -90,7 +126,7 @@
 
         <!-- 회원가입 버튼을 그 아래에 위치시킴 -->
         <Button
-            android:id="@+id/signup_move_button"
+            android:id="@+id/signupMoveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#F2BD6D"
