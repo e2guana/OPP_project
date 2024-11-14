@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_signinFragment_to_friendlistFragment"
             app:destination="@id/friendlistFragment" />
+        <action
+            android:id="@+id/action_signinFragment_to_login_Fragment"
+            app:destination="@id/login_Fragment" />
     </fragment>
     <fragment
         android:id="@+id/friendlistFragment"

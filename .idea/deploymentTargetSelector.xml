@@ -13,6 +13,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+      <option name="selectionMode" value="DROPDOWN" />
+      <Target type="DEFAULT_BOOT">
+        <handle />
+      </Target>
     </selectionStates>
   </component>
 </project>
