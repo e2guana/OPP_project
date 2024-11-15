@@ -60,9 +60,10 @@ class login_Fragment : Fragment() {
         }
     }
 
+
     // 이메일 형식 검증 함수
     private fun isValidEmail(email: String): Boolean {
-        // 이메일 형식 검증을 위한 정규식
+    // 이메일 형식 검증을 위한 정규식
         val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
         return email.matches(Regex(emailPattern))
     }

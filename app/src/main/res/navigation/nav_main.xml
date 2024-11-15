@@ -9,13 +9,13 @@
         android:id="@+id/login_Fragment"
         android:name="com.example.opp_e2guana.login_Fragment"
         android:label="fragment_login_"
-        tools:layout="@layout/fragment_login_" >
-        <action
-            android:id="@+id/action_login_Fragment_to_signinFragment"
-            app:destination="@id/signinFragment" />
+        tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_Fragment_to_friendlistFragment"
             app:destination="@id/friendlistFragment" />
+        <action
+            android:id="@+id/action_login_Fragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
     </fragment>
     <fragment
         android:id="@+id/signinFragment"
@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_friendlistFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
+        <action
+            android:id="@+id/action_friendlistFragment_to_profile_settingFragment"
+            app:destination="@id/profile_settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -59,5 +62,9 @@
         android:id="@+id/show_locationFragment"
         android:name="com.example.opp_e2guana.show_locationFragment"
         android:label="fragment_show_location"
-        tools:layout="@layout/fragment_show_location" />
+        tools:layout="@layout/fragment_show_location" >
+        <action
+            android:id="@+id/action_show_locationFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
 </navigation>
