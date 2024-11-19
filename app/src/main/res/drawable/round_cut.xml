@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경색 설정, 검은 반투명 배경 -->
+    <solid android:color="#80000000" />
+    <!-- 위쪽 모서리만 라운드 설정 -->
+    <corners
+        android:topLeftRadius="30dp"
+        android:topRightRadius="30dp"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp" />
+</shape>
+
+    <!-- fragment show_location에 적용되는 검은색 반투명 배경입니다. -->

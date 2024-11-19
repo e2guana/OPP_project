@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".signinFragment">
+
+    <!-- 상단 배경색 -->
+    <View
+        android:id="@+id/TopBackground"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="#F2BD6D"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 뒤로가기 버튼 -->
+    <TextView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="10dp"
+        android:contentDescription="뒤로가기"
+        android:text="←"
+        android:textColor="#FFFFFF"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 프로필 변경 아이콘 -->
+    <ImageView
+        android:id="@+id/profileIcon"
+        android:layout_width="164dp"
+        android:layout_height="178dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#F2BD6D"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_profile_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TopBackground" />
+
+    <!-- 총 입력 필드 -->
+    <LinearLayout
+        android:id="@+id/inputFields"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="35dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileIcon">
+
+        <!-- 닉네임 필드 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="20dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nickname_icon"
+                app:tint="#C1C7D0"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:hint="닉네임"
+                android:inputType="text"
+                android:textColor="#C1C7D0"
+                android:textSize="16sp"
+                android:autofillHints="username"
+                android:background="@drawable/underline"/>
+        </LinearLayout>
+
+        <!-- 연락처 필드 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="20dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_contact_icon"
+                app:tint="#C1C7D0"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:hint="연락처"
+                android:inputType="phone"
+                android:textColor="#C1C7D0"
+                android:textSize="16sp"
+                android:autofillHints="phone"
+                android:background="@drawable/underline"/>
+        </LinearLayout>
+
+        <!-- 이메일 필드 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="20dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_email_icon"
+                app:tint="#C1C7D0"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:hint="이메일/ID"
+                android:inputType="textEmailAddress"
+                android:textColor="#C1C7D0"
+                android:textSize="16sp"
+                android:autofillHints="emailAddress"
+                android:background="@drawable/underline"/>
+        </LinearLayout>
+
+        <!-- 비밀번호 필드 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="20dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_password_icon"
+                app:tint="#C1C7D0"/>
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:hint="비밀번호"
+                android:inputType="textPassword"
+                android:textColor="#C1C7D0"
+                android:textSize="16sp"
+                android:autofillHints="password"
+                android:background="@drawable/underline"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 회원가입 버튼 -->
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="35dp"
+        android:backgroundTint="#F2BD6D"
+        android:text="회원가입"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputFields" />
+</androidx.constraintlayout.widget.ConstraintLayout>
