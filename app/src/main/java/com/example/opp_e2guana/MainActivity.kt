@@ -11,6 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.opp_e2guana.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
@@ -37,10 +39,49 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        /*
+        로그아웃 버튼을 눌렀을 때 로그아웃 여부를 확인해주는 팝업창을 띄워주는 내용
+        엄밀히 따지면 현재 모든 하단 네비게이션 동작을 아래 함수에서 제어할 수 있게 됨.
+
+         */
+        binding.bottomNav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.login_Fragment -> {
+                    showLogoutDialog()
+                    true
+                }
+                R.id.friendlistFragment -> {    //로그아웃 이외에 애들도 when 안에 넣어줘야지 동작함 아마도 안넣으면 다 false로 가는듯
+                    navController.navigate(R.id.friendlistFragment)
+                    true
+                }
+                R.id.profile_settingFragment -> {
+                    navController.navigate(R.id.profile_settingFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frg_nav)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
     }
+
+    fun showLogoutDialog() {                                //팝업창 띄우는 내용
+        MaterialAlertDialogBuilder(this)
+            .setMessage("로그아웃 하시겠습니까?")
+            .setNegativeButton("취소") { dialog, _ ->  //다이얼로그 버튼시 호출되는 콜백 함수에 전달되는 파라미터 'dialog'만 사용하겠다는 의미
+                dialog.dismiss()
+            }
+            .setPositiveButton("확인") { _, _ ->      //네거티브면 왼쪽, 포지티브면 오른쪽에 버튼 위치함
+                //여기서 부터 로그아웃에 대한 과정을 추가하면 됨.
+                val navController = binding.frgNav.getFragment<NavHostFragment>().navController
+                navController.navigate(R.id.login_Fragment)
+            }
+            .show()
+    }
 }
+
