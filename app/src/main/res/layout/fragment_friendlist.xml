@@ -1,50 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".friendlistFragment">
 
     <!-- 검색창 -->
     <LinearLayout
+        android:id="@+id/searchbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingTop="32dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 검색 입력창 -->
         <EditText
+            android:id="@+id/searcharea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="검색"
-            android:inputType="text"
-            android:autofillHints="username"
-            android:padding="13dp"
+            android:layout_marginHorizontal="16dp"
             android:background="@drawable/round_search_box"
             android:drawableStart="@drawable/ic_search_icon"
-            android:layout_margin="26dp"
-            android:drawablePadding="13dp" />
+            android:drawablePadding="12dp"
+            android:hint="검색"
+            android:inputType="text"
+            android:padding="12dp" />
+
+        <!-- 친구 리스트 제목 -->
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="친구"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="친구 목록"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- 구분선 -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="#D3D3D3" />
-
+            android:background="#CCCCCC" />
     </LinearLayout>
 
+    <!-- 친구 목록 RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewFriends"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/searchbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_friend" />
 
 
+    <!-- userdata 데이터 임시 저장
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/FirebaseNickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="227dp"
+                tools:layout_editor_absoluteY="347dp" />
+
+            <TextView
+                android:id="@+id/FirebasePhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="165dp"
+                tools:layout_editor_absoluteY="323dp" />
+
+            <TextView
+                android:id="@+id/FirebaseEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="124dp"
+                tools:layout_editor_absoluteY="284dp" />
+
+            <TextView
+                android:id="@+id/FirebasePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="74dp"
+                tools:layout_editor_absoluteY="238dp" />
+        </LinearLayout>
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
