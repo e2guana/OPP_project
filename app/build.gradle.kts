@@ -47,6 +47,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    implementation(libs.androidx.activity.ktx)      //lms-안드로이드 실습최신버전 반영 게시판-Viewmodel 실습-우상천님의 방법대로 불러옴
+    implementation(libs.androidx.fragment.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         /*
         로그아웃 버튼을 눌렀을 때 로그아웃 여부를 확인해주는 팝업창을 띄워주는 내용
         엄밀히 따지면 현재 모든 하단 네비게이션 동작을 아래 함수에서 제어할 수 있게 됨.
-
          */
         binding.bottomNav.setOnItemSelectedListener {
             when (it.itemId) {
@@ -61,7 +60,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frg_nav)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

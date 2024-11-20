@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class login_Fragment : Fragment() {
-
+    val viewModel: Userdata_viewmodel by activityViewModels()       //사용자 정보는 나중에 firebase에서 받아와야 합니다!
     var binding: FragmentLoginBinding? = null
 
     override fun onCreateView(
@@ -36,6 +39,7 @@ class login_Fragment : Fragment() {
         // 로그인 버튼 클릭 시 이메일 형식 검증
         binding?.loginButton?.setOnClickListener {
             val email = binding?.emailEditText?.text.toString()
+            val password = binding?.passwordEditText?.text.toString()
 
             // 이메일 형식 검증
             if (!isValidEmail(email)) {
@@ -47,6 +51,9 @@ class login_Fragment : Fragment() {
                 // 화면 전환
                 findNavController().navigate(R.id.action_login_Fragment_to_friendlistFragment)
             }
+
+            viewModel.set_email(email)
+            viewModel.set_password(password)
         }
 
         // 회원가입 버튼 클릭 시
@@ -62,7 +69,7 @@ class login_Fragment : Fragment() {
 
 
     // 이메일 형식 검증 함수
-    private fun isValidEmail(email: String): Boolean {
+    private fun isValidEmail(email: String): Boolean {                                              // <- 이메일 형식 오류 체크도 뷰모델로 가는게 좋지 않을까요?
     // 이메일 형식 검증을 위한 정규식
         val emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
         return email.matches(Regex(emailPattern))
