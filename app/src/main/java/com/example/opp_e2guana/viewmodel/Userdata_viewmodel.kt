@@ -52,7 +52,7 @@ class Userdata_viewmodel:ViewModel() {
         } ?: "Error"
     }
 
-    fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보
+    fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보 불러오기
         _selectedFriend.value = friend
     }
 
