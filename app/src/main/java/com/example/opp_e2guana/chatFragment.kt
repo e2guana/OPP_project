@@ -1,59 +1,58 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.opp_e2guana.adapter.ChatAdapter
+import com.example.opp_e2guana.databinding.FragmentChatBinding
+import com.example.opp_e2guana.viewmodel.ChatViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [chatFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class chatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // View Binding 사용
+    private lateinit var binding: FragmentChatBinding
+
+    // ViewModel 초기화
+    private val chatViewModel: ChatViewModel by viewModels()
+
+    // RecyclerView Adapter 초기화
+    private lateinit var adapter: ChatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+    ): View {
+        // FragmentChatBinding을 통해 레이아웃 초기화
+        binding = FragmentChatBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment chatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            chatFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // RecyclerView 설정
+        adapter = ChatAdapter(emptyList())
+        binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.chatRecyclerView.adapter = adapter
+
+        // ViewModel의 LiveData 관찰
+        chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
+            adapter = ChatAdapter(messages) // 새로운 메시지 리스트로 어댑터 업데이트
+            binding.chatRecyclerView.adapter = adapter
+            binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
+        }
+
+        // 전송 버튼 클릭 이벤트
+        binding.btnSend.setOnClickListener {
+            val message = binding.inputMessage.text.toString()
+            if (message.isNotBlank()) {
+                chatViewModel.sendMessage(message) // ViewModel에 메시지 추가
+                binding.inputMessage.text.clear() // 입력창 초기화
             }
+        }
     }
 }
