@@ -1,4 +1,4 @@
-package com.example.opp_e2guana.adaptor
+package com.example.opp_e2guana.adapter
 
 import android.view.LayoutInflater
 import android.view.View

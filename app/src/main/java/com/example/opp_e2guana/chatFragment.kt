@@ -19,7 +19,7 @@ class chatFragment : Fragment() {
     // ViewModel 초기화
     private val chatViewModel: ChatViewModel by viewModels()
 
-    // RecyclerView Adapter 초기화
+    // RecyclerView Adapter 초기화 null체크 안 하려고 lateinit
     private lateinit var adapter: ChatAdapter
 
     override fun onCreateView(
