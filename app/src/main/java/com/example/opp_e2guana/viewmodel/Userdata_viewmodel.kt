@@ -24,7 +24,7 @@ class Userdata_viewmodel:ViewModel() {
     val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
 
 
-    fun set_name(nameData:String) {
+    fun set_name(nameData:String) {                     //이름 변경
         Log.d("name", "$nameData")
         name.value = name.value?.let {
             nameData
