@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opp_e2guana.databinding.FragmentFriendlistBinding
 import androidx.fragment.app.activityViewModels
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+
 //import com.bumptech.glide.Glide
 
 
@@ -23,7 +25,7 @@ class friendlistFragment : Fragment() {
     private lateinit var adapter: FriendListAdapter
 
     // UserDataViewModel 가져오기
-    private val userDataViewModel: UserDataViewModel by activityViewModels()
+    private val userDataViewModel: Userdata_viewmodel by activityViewModels()
 
     // 친구 목록 예시 데이터
     private val dummyfriends = arrayOf(

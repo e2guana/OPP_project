@@ -32,8 +32,8 @@
     <fragment
         android:id="@+id/friendlistFragment"
         android:name="com.example.opp_e2guana.friendlistFragment"
-        android:label="fragment_friendlist"
-        tools:layout="@layout/fragment_friendlist" >
+        android:label="친구 목록"
+        tools:layout="@layout/fragment_friendlist">
         <action
             android:id="@+id/action_friendlistFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
@@ -47,8 +47,8 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.opp_e2guana.chatFragment"
-        android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" >
+        android:label="채팅창"
+        tools:layout="@layout/fragment_chat">
         <action
             android:id="@+id/action_chatFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
@@ -56,13 +56,13 @@
     <fragment
         android:id="@+id/profile_settingFragment"
         android:name="com.example.opp_e2guana.profile_settingFragment"
-        android:label="fragment_profile_setting"
+        android:label="프로필설정"
         tools:layout="@layout/fragment_profile_setting" />
     <fragment
         android:id="@+id/show_locationFragment"
         android:name="com.example.opp_e2guana.show_locationFragment"
-        android:label="fragment_show_location"
-        tools:layout="@layout/fragment_show_location" >
+        android:label="친구 위치"
+        tools:layout="@layout/fragment_show_location">
         <action
             android:id="@+id/action_show_locationFragment_to_chatFragment"
             app:destination="@id/chatFragment" />

@@ -11,9 +11,12 @@ import com.example.opp_e2guana.databinding.FragmentSigninBinding
 import android.content.Intent //여기부터 이미지 관련 임포트
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 
 class signinFragment : Fragment() {
+    val viewModel: Userdata_viewmodel by activityViewModels()                   //user 정보 뷰모델
     private var binding: FragmentSigninBinding? = null
 
     // 이미지 선택 관련 변수
@@ -80,10 +83,13 @@ class signinFragment : Fragment() {
         }
 
         // Firebase 배우기 전에 더미데이터 임시 저장
-        UserData.nickname = nickname
-        UserData.phone = phone
-        UserData.email = email
-        UserData.password = password
+        viewModel.apply() {
+            set_name(nickname)
+            set_email(email)
+            set_phone(phone)
+            set_password(password)
+        }
+
 
         // 조건이 모두 충족되면 화면 전환
         navigateToFriendList()

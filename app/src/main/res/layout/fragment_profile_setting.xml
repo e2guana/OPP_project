@@ -31,12 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            tools:src="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/profileIcon"
+            android:layout_width="164dp"
+            android:layout_height="178dp"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="#F2BD6D"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_profile_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TopBackground" />
 
         <TextView
             android:id="@+id/show_name"
