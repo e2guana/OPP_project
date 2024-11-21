@@ -70,6 +70,7 @@
                 android:src="@drawable/ic_nickname_icon"
                 app:tint="#C1C7D0"/>
             <EditText
+                android:id="@+id/nicknameEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -95,6 +96,7 @@
                 android:src="@drawable/ic_contact_icon"
                 app:tint="#C1C7D0"/>
             <EditText
+                android:id="@+id/phoneEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -120,6 +122,7 @@
                 android:src="@drawable/ic_email_icon"
                 app:tint="#C1C7D0"/>
             <EditText
+                android:id="@+id/emailEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -145,6 +148,7 @@
                 android:src="@drawable/ic_password_icon"
                 app:tint="#C1C7D0"/>
             <EditText
+                android:id="@+id/passwordEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
