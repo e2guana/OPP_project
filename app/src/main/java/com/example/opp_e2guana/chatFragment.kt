@@ -42,16 +42,16 @@ class chatFragment : Fragment() {
         // ViewModel의 LiveData 관찰
         chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
             adapter = ChatAdapter(messages) // 새로운 메시지 리스트로 어댑터 업데이트
-            binding.chatRecyclerView.adapter = adapter
+            binding.chatRecyclerView.adapter = adapter //RecycleView에 adapter연결
             binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
         }
 
         // 전송 버튼 클릭 이벤트
-        binding.btnSend.setOnClickListener {
-            val message = binding.inputMessage.text.toString()
+        binding.btnSend.setOnClickListener { //클릭 시
+            val message = binding.inputMessage.text.toString() //메시지 입력
             if (message.isNotBlank()) {
                 chatViewModel.sendMessage(message) // ViewModel에 메시지 추가
-                binding.inputMessage.text.clear() // 입력창 초기화
+                binding.inputMessage.text.clear() // 전송 후입력창 초기화
             }
         }
     }
