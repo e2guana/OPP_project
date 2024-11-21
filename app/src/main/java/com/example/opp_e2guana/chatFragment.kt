@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 class chatFragment : Fragment() {
     // UserDataViewModel 가져오기 (friendlistFragment에서 친구데이터를 가져옴)
-    private val userDataViewModel: UserDataViewModel by activityViewModels()
+    private val userDataViewModel: Userdata_viewmodel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.opp_e2guana.FriendListAdapter
 
 class Userdata_viewmodel:ViewModel() {
     //라이브 데이터라고 해서 (외부)프레그먼트에서 모니터링(옵저브)할 수 있는 string임, 외부 관찰은 가능하나 함부로 못바꿈(private 반드시 걸것)
@@ -18,6 +19,10 @@ class Userdata_viewmodel:ViewModel() {
 
     private val password = MutableLiveData<String>("error") //패스워드는 당연히 보이면 안됨!!
 
+    // 선택된 Friend_Data를 저장할 LiveData
+    private val _selectedFriend = MutableLiveData<FriendListAdapter.Friend_Data>()
+    val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
+
 
     fun set_name(nameData:String) {
         Log.d("name", "$nameData")
@@ -26,8 +31,7 @@ class Userdata_viewmodel:ViewModel() {
         } ?: "UNKNOWN"
     }
 
-
-    fun set_email(emailData:String) {                    //이메일 변경
+    fun set_email(emailData:String) {                   //이메일 변경
         Log.d("email", "$emailData")
         emailAddress.value = emailAddress.value?.let {
             emailData
@@ -35,20 +39,21 @@ class Userdata_viewmodel:ViewModel() {
     }
 
     fun set_phone(phone:String) {                       //전화번호 변경
-        Log.d("email", "$phone")
+        Log.d("phone", "$phone")
         phoneNumber.value = phoneNumber.value?.let {
             phone
         } ?: "Not have phoneNumber"
     }
 
-
-    fun set_password(setPassword:String) {                  //패스워드 변경
+    fun set_password(setPassword:String) {              //패스워드 변경
         Log.d("password", "$setPassword")
         password.value = password.value?.let {
             setPassword
         } ?: "Error"
-
     }
 
+    fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보
+        _selectedFriend.value = friend
+    }
 
 }

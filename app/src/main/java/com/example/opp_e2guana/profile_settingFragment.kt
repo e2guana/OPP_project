@@ -13,6 +13,7 @@ import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.databinding.FragmentProfileSettingBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 /*
@@ -23,7 +24,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class profile_settingFragment : Fragment() {
-
     //val viewModel: Userdata_viewmodel by viewModels() //viewModel을 viewModels로 위임한다(lazy처럼 적절하게 늦게 초기화함),
     val viewModel : Userdata_viewmodel by activityViewModels() //activity에 있는 (상위)모델을 보고 초기화한다
 
@@ -42,16 +42,16 @@ class profile_settingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.show_name.observe(viewLifecycleOwner) {//뷰모델에 있는 라이브 데이터를 가져다가 바인딩? 한다고 함(이 프레그먼트의 viewlifecycle만큼 볼거다, this는 쓰면 안됨)
-            binding?.editName?.hint = viewModel.show_name.value   //hint는 글자가 쓰여있는게 아니라 그뒤로 보이는 내용임
-            binding?.editEmail?.hint = viewModel.show_email.value
+            binding?.let() {
+                it.showName?.setText(viewModel.show_name.value)
+                it.showEmail?.setText(viewModel.show_email.value)
+                it.editName?.hint = viewModel.show_name.value   //hint는 글자가 쓰여있는게 아니라 그뒤로 보이는 내용임
+                it.editEmail?.hint = viewModel.show_email.value
+            }
         }
 
-
-
-        //여기에다가 id, 닉네임, 비번을 입력 받는 내용을 추가해야됨
-
         binding?.resettingButton?.setOnClickListener {                  //변경하기 버튼, 이곳을 누르면 수정할건지 되물어보는 팝업창을 띄워야함!
-            //git showResettingDialog()
+            // showResettingDialog()
             val name = binding?.editName?.text.toString()               //임시 테스트
             val email = binding?.editEmail?.text.toString()
             val password = binding?.editPassword?.text.toString()
@@ -60,9 +60,8 @@ class profile_settingFragment : Fragment() {
                 it.set_email(email)
                 it.set_password(password)
             }
-
-
         }
+
     }
 /*
     private fun showResettingDialog() {                                 //팝업창

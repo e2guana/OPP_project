@@ -83,10 +83,13 @@ class signinFragment : Fragment() {
         }
 
         // Firebase 배우기 전에 더미데이터 임시 저장
-        viewModel.set_name(nickname)
-        viewModel.set_email(email)
-        viewModel.set_phone(phone)
-        viewModel.set_password(password)
+        viewModel.apply() {
+            set_name(nickname)
+            set_email(email)
+            set_phone(phone)
+            set_password(password)
+        }
+
 
         // 조건이 모두 충족되면 화면 전환
         navigateToFriendList()
