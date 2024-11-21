@@ -13,6 +13,9 @@ class Userdata_viewmodel:ViewModel() {
     private val emailAddress = MutableLiveData<String>("Not have email")
     val show_email :LiveData<String> get() = emailAddress
 
+    private val phoneNumber = MutableLiveData<String>("Not have email")
+    val show_phone :LiveData<String> get() = phoneNumber
+
     private val password = MutableLiveData<String>("error") //패스워드는 당연히 보이면 안됨!!
 
 
@@ -30,6 +33,14 @@ class Userdata_viewmodel:ViewModel() {
             emailData
         } ?: "Not have email"
     }
+
+    fun set_phone(phone:String) {                       //전화번호 변경
+        Log.d("email", "$phone")
+        phoneNumber.value = phoneNumber.value?.let {
+            phone
+        } ?: "Not have phoneNumber"
+    }
+
 
     fun set_password(setPassword:String) {                  //패스워드 변경
         Log.d("password", "$setPassword")

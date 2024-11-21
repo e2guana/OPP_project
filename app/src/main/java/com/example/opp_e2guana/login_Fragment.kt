@@ -11,16 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [login_Fragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class login_Fragment : Fragment() {
     val viewModel: Userdata_viewmodel by activityViewModels()       //사용자 정보는 나중에 firebase에서 받아와야 합니다!
     var binding: FragmentLoginBinding? = null
