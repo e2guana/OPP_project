@@ -1,6 +1,7 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,11 +51,12 @@ class profile_settingFragment : Fragment() {
         //여기에다가 id, 닉네임, 비번을 입력 받는 내용을 추가해야됨
 
         binding?.resettingButton?.setOnClickListener {                  //변경하기 버튼, 이곳을 누르면 수정할건지 되물어보는 팝업창을 띄워야함!
+            //git showResettingDialog()
             val name = binding?.editName?.text.toString()               //임시 테스트
             val email = binding?.editEmail?.text.toString()
             val password = binding?.editPassword?.text.toString()
             viewModel.let {                                            //이 부분 반환할 때 예를들어 이름만 바뀌면 나머지 메일이랑 비번은 null로 가서 초기화 되는게 아니라 이전에 있던 데이터를 유지해야됨
-                it.set_name(name)
+                it.set_name(name)                                      //파라미터는 무조건 string으로만 보내야해서 false를 넣을 순 없음
                 it.set_email(email)
                 it.set_password(password)
             }
@@ -63,16 +65,16 @@ class profile_settingFragment : Fragment() {
         }
     }
 /*
-    fun showResettingDialog() {                                 //팝업창
-        MaterialAlertDialogBuilder(this)
+    private fun showResettingDialog() {                                 //팝업창
+        MaterialAlertDialogBuilder(this)                                //현재 이 부분에서 에러 발생 중
             .setMessage("변경하시겠습니까?")
             .setNegativeButton("취소") { dialog, _ ->
+                Log.d("profilesetting", "cancle")
                 dialog.dismiss()
             }
             .setPositiveButton("확인") { _, _ ->
-
+                Log.d("profilesetting", "ok")
             }
             .show()
-    }
- */
+    }*/
 }
