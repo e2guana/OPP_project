@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- 위치정보를 얻기 위한 퍼미션 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  <!--정확도가 높은 위치-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!--정확도가 부정확한 위치-->
+    <!--인터넷을 통해서 지도를 불러와야 하기에 같이 퍼미션 해줘야 함-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +17,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OPP_e2guana"
         tools:targetApi="31">
+
+        <!-- 아파치 API 사용 -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- 구글 지도 API키 입니다. 공개금지! -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDjeZhrwS1F_gjfkHihVaMzT5MxTABuTBY" />
+
+        <!-- 현재 사용하고 있는 play services의 라이브러리 버전 -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

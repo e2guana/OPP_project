@@ -57,7 +57,11 @@
         android:id="@+id/profile_settingFragment"
         android:name="com.example.opp_e2guana.profile_settingFragment"
         android:label="프로필설정"
-        tools:layout="@layout/fragment_profile_setting" />
+        tools:layout="@layout/fragment_profile_setting" >
+        <action
+            android:id="@+id/action_profile_settingFragment_to_show_locationFragment"
+            app:destination="@id/show_locationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/show_locationFragment"
         android:name="com.example.opp_e2guana.show_locationFragment"

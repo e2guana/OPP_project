@@ -50,6 +50,10 @@ class profile_settingFragment : Fragment() {
             }
         }
 
+        binding?.testbutton?.setOnClickListener {   //테스트 버튼
+            findNavController().navigate(R.id.action_profile_settingFragment_to_show_locationFragment)
+        }
+
         binding?.resettingButton?.setOnClickListener {                  //변경하기 버튼, 이곳을 누르면 수정할건지 되물어보는 팝업창을 띄워야함!
             // showResettingDialog()
             val name = binding?.editName?.text.toString()               //임시 테스트

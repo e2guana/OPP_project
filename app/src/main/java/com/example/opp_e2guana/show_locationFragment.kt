@@ -1,6 +1,7 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,13 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.databinding.FragmentShowLocationBinding
+import com.google.android.gms.common.api.GoogleApiClient
+
+import com.google.android.gms.maps.*                                        //지도
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker                             //마커
+import com.google.android.gms.maps.model.MarkerOptions                      //마커 설정
+
 
 /*
     이 프레그먼트는 우선 google맵에 대한 api를 받아서 배경에 띄워야함!
@@ -26,6 +34,7 @@ import com.example.opp_e2guana.databinding.FragmentShowLocationBinding
 class show_locationFragment : Fragment() {
 
     var binding: FragmentShowLocationBinding? = null
+    private lateinit var google_map: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +47,23 @@ class show_locationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as? SupportMapFragment  //mapfragment가 null이면 log 출력 <- null이면 로딩이 안되고 튕김
+        mapFragment?.getMapAsync { googleMap ->
+            google_map = googleMap
+
+            val KAU_address = LatLng(37.600228, 126.865377)         //항공대
+            val Default_location_KAU = google_map.addMarker(                        //위치가 출력되지 않을 경우 보여줄 위치
+                MarkerOptions()
+                    .position(KAU_address)
+                    .title("기본 위치")
+            )
+            Default_location_KAU?.showInfoWindow()                                  //마커 위에 타이틀을 항상 띄어주는 내용
+
+
+            google_map.moveCamera(CameraUpdateFactory.newLatLngZoom(KAU_address, 17f))          //-1부터 가능 -1은 세계지도로 보여줌. float 형식으로 받음. 17이 제일 적당한듯?
+        } ?: Log.e("showlocation_map", "Mapfragment is null")
+
 
         binding?.gochatButton?.setOnClickListener() {                                               //채팅 아이콘 버튼, 누르면 채팅방으로 이동
             findNavController().navigate(R.id.action_show_locationFragment_to_chatFragment)

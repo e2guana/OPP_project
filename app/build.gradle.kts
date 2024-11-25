@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -50,6 +51,11 @@ dependencies {
 
     implementation(libs.androidx.activity.ktx)      //lms-안드로이드 실습최신버전 반영 게시판-Viewmodel 실습-우상천님의 방법대로 불러옴
     implementation(libs.androidx.fragment.ktx)
+
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")  //구글지도 API
+    implementation(libs.firebase.database)                                  //파이어베이스
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
