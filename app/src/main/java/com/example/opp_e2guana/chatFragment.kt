@@ -5,29 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.opp_e2guana.adapter.ChatAdapter
 import com.example.opp_e2guana.databinding.FragmentChatBinding
 import com.example.opp_e2guana.viewmodel.ChatViewModel
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 class chatFragment : Fragment() {
 
     // View Binding 사용
-    private lateinit var binding: FragmentChatBinding
+    private var _binding: FragmentChatBinding? = null
+    private val binding get() = _binding!!
 
     // ViewModel 초기화
     private val chatViewModel: ChatViewModel by viewModels()
 
-    // RecyclerView Adapter 초기화 null체크 안 하려고 lateinit
+    // RecyclerView Adapter 초기화
     private lateinit var adapter: ChatAdapter
+
+    // UserDataViewModel 가져오기 (friendlistFragment에서 친구데이터를 가져옴)
+    private val userDataViewModel: Userdata_viewmodel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // FragmentChatBinding을 통해 레이아웃 초기화
-        binding = FragmentChatBinding.inflate(inflater, container, false)
+        _binding = FragmentChatBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,18 +47,25 @@ class chatFragment : Fragment() {
 
         // ViewModel의 LiveData 관찰
         chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
-            adapter = ChatAdapter(messages) // 새로운 메시지 리스트로 어댑터 업데이트
-            binding.chatRecyclerView.adapter = adapter //RecycleView에 adapter연결
+            adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
             binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
         }
 
         // 전송 버튼 클릭 이벤트
-        binding.btnSend.setOnClickListener { //클릭 시
-            val message = binding.inputMessage.text.toString() //메시지 입력
+        binding.btnSend.setOnClickListener {
+            val message = binding.inputMessage.text.toString() // 메시지 입력
             if (message.isNotBlank()) {
                 chatViewModel.sendMessage(message) // ViewModel에 메시지 추가
-                binding.inputMessage.text.clear() // 전송 후입력창 초기화
+                binding.inputMessage.text.clear() // 전송 후 입력창 초기화
             }
         }
+
+        //ViewModel 가져오는 부분
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // View Binding 메모리 누수 방지
     }
 }

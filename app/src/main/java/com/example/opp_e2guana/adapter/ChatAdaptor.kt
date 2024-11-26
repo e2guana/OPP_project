@@ -8,9 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.opp_e2guana.R
 import com.example.opp_e2guana.model.ChatMessage // ChatMessage 경로 추가
 
-class ChatAdapter(private val messages: List<ChatMessage>) :
+class ChatAdapter(private var messages: List<ChatMessage>) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
         //RecyclerView가 화면에 표시할 레이아웃을 생성
+        fun updateMessages(newMessages: List<ChatMessage>) {
+            messages = newMessages
+            notifyDataSetChanged() // 데이터 갱신
+        }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate( //xml 객체로 변경
             if (viewType == 0) R.layout.chat_sent else R.layout.chat_receive,
