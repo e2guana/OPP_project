@@ -6,5 +6,5 @@ data class ChatMessage(
     val receiverId: String,
     val message: String,
     val timestamp: Long,
-    val isSentByMe: Boolean
+    val isSentByMe: Boolean //True:내가 보낸 메세지
 )

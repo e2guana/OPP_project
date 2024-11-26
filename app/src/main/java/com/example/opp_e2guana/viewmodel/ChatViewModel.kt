@@ -22,7 +22,7 @@ class ChatViewModel : ViewModel() {
 
     fun sendMessage(message: String) {
         val newMessage = ChatMessage(
-            id = System.currentTimeMillis().toString(),
+            id = System.currentTimeMillis().toString(), //message 분류를 위한 id
             senderId = "user1", // 나의 ID
             receiverId = "user2", // 상대방 ID
             message = message,
