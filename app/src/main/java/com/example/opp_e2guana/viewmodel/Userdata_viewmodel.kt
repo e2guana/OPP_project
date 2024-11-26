@@ -20,6 +20,7 @@ class Userdata_viewmodel:ViewModel() {
     val show_phone :LiveData<String> get() = phoneNumber
 
     private val password = MutableLiveData<String>("error") //패스워드는 당연히 보이면 안됨!!
+    val show_password :LiveData<String> get() = password          //비밀번호 변경할 때 검증 목적으로
 
     fun set_name(nameData:String) {                     //이름 변경
         Log.d("name", "$nameData")

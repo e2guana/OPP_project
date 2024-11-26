@@ -54,7 +54,12 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:21.3.0")  //구글지도 API
-    implementation(libs.firebase.database)                                  //파이어베이스
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.auth)                                  //파이어베이스
+
+    //참조링크 : https://firebase.google.com/docs/auth/android/password-auth?hl=ko&authuser
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+    implementation("com.google.firebase:firebase-auth")                //파이어베이스 auth 진행 중 추가한 내용
 
 
     testImplementation(libs.junit)
