@@ -1,1 +1,5 @@
+build.gradle.kts
 /build
+local.properties
+
+app/src/main/res/values/api_keys.xml

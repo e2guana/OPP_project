@@ -21,11 +21,6 @@ class Userdata_viewmodel:ViewModel() {
 
     private val password = MutableLiveData<String>("error") //패스워드는 당연히 보이면 안됨!!
 
-    // 선택된 Friend_Data를 저장할 LiveData
-    private val _selectedFriend = MutableLiveData<FriendListAdapter.Friend_Data>()
-    val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
-
-
     fun set_name(nameData:String) {                     //이름 변경
         Log.d("name", "$nameData")
         val setName = name.value?.let {                 //name.value를 바꾸지 않고 리포지토리로 발로 올리게 됨. DB의존도가 더 커지는거 아닌가?
@@ -55,6 +50,11 @@ class Userdata_viewmodel:ViewModel() {
             setPassword
         } ?: "Error"
     }
+
+    // 선택된 Friend_Data를 저장할 LiveData
+    private val _selectedFriend = MutableLiveData<FriendListAdapter.Friend_Data>()
+    val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
+
 
     fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보 불러오기
         _selectedFriend.value = friend

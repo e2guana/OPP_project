@@ -14,9 +14,11 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.opp_e2guana.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
+import com.google.firebase.BuildConfig
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

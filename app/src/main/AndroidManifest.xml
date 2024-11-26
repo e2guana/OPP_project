@@ -26,7 +26,7 @@
         <!-- 구글 지도 API키 입니다. 공개금지! -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDjeZhrwS1F_gjfkHihVaMzT5MxTABuTBY" />
+            android:value="@string/google_APIKEY" />
 
         <!-- 현재 사용하고 있는 play services의 라이브러리 버전 -->
         <meta-data
