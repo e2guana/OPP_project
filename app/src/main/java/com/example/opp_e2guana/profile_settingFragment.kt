@@ -92,6 +92,8 @@ class profile_settingFragment : Fragment() {
                 it.set_password(password)
             }
 
+            //파이어베이스 내용 변경 확인 후 변경 성공했다고 알리기
+
             Toast.makeText(context,"변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
         }
     }
