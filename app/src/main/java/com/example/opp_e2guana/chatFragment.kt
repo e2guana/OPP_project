@@ -70,5 +70,6 @@ class chatFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null // View Binding 메모리 누수 방지
+
     }
 }

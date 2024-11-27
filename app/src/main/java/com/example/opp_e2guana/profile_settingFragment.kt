@@ -1,13 +1,19 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.databinding.FragmentProfileSettingBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.activity.result.contract.ActivityResultContracts
 
 
 /*

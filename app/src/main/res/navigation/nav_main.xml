@@ -64,6 +64,7 @@
         android:name="com.example.opp_e2guana.chatFragment"
         android:label="채팅창"
         tools:layout="@layout/fragment_chat">
+
         <!-- 채팅창 -> 위치 보기 -->
         <action
             android:id="@+id/action_chatFragment_to_show_locationFragment"
@@ -74,6 +75,7 @@
     <fragment
         android:id="@+id/profile_settingFragment"
         android:name="com.example.opp_e2guana.profile_settingFragment"
+
         android:label="프로필 설정"
         tools:layout="@layout/fragment_profile_setting" />
 
@@ -83,7 +85,9 @@
         android:name="com.example.opp_e2guana.show_locationFragment"
         android:label="친구 위치"
         tools:layout="@layout/fragment_show_location">
+
         <!-- 위치 보기 -> 채팅창 -->
+
         <action
             android:id="@+id/action_show_locationFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
