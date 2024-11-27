@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions                      //�
 
     프로필을 눌렀을 때 친구의 프로필 사진을 띄워줄건지 아니면 프로필 이미지 또한 고정할건지 생각해야됨 <- 현재로썬 일단 고정
 
+    - j
  */
 
 
@@ -41,31 +42,33 @@ class show_locationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentShowLocationBinding.inflate(inflater)
-        // Inflate the layout for this fragment
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as? SupportMapFragment  //mapfragment가 null이면 log 출력 <- null이면 로딩이 안되고 튕김
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as? SupportMapFragment  //mapfragment가 null이면 log 출력 <- null이면 로딩이 안되고 튕김 -j
         mapFragment?.getMapAsync { googleMap ->
             google_map = googleMap
 
-            val KAU_address = LatLng(37.600228, 126.865377)         //항공대
-            val Default_location_KAU = google_map.addMarker(                        //위치가 출력되지 않을 경우 보여줄 위치
+            val KAU_address = LatLng(37.600228, 126.865377)         //항공대 -j
+            val Default_location_KAU = google_map.addMarker(                        //위치가 출력되지 않을 경우 보여줄 위치 -j
                 MarkerOptions()
                     .position(KAU_address)
                     .title("기본 위치")
             )
-            Default_location_KAU?.showInfoWindow()                                  //마커 위에 타이틀을 항상 띄어주는 내용
+            Default_location_KAU?.showInfoWindow()                                  //마커 위에 타이틀을 항상 띄어주는 내용 -j
 
-
-            google_map.moveCamera(CameraUpdateFactory.newLatLngZoom(KAU_address, 17f))          //-1부터 가능 -1은 세계지도로 보여줌. float 형식으로 받음. 17이 제일 적당한듯?
+            google_map.moveCamera(CameraUpdateFactory.newLatLngZoom(KAU_address, 17f))        //-1부터 가능 -1은 세계지도로 보여줌. float 형식으로 받음. 17이 제일 적당한듯? -j
         } ?: Log.e("showlocation_map", "Mapfragment is null")
 
+        binding?.backButton?.setOnClickListener {                                                   //뒤로 가기 버튼 -j
+            parentFragmentManager.popBackStack() //현재 Fragment를 스택에서 제거하는 함수
+        }
 
-        binding?.gochatButton?.setOnClickListener() {                                               //채팅 아이콘 버튼, 누르면 채팅방으로 이동
+
+        binding?.gochatButton?.setOnClickListener() {                                               //채팅 아이콘 버튼, 누르면 채팅방으로 이동 -j
             findNavController().navigate(R.id.action_show_locationFragment_to_chatFragment)
         }
 

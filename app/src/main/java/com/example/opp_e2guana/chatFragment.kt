@@ -1,12 +1,14 @@
 package com.example.opp_e2guana
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.opp_e2guana.adapter.ChatAdapter
 import com.example.opp_e2guana.databinding.FragmentChatBinding
@@ -49,6 +51,11 @@ class chatFragment : Fragment() {
         chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
             adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
             binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
+        }
+
+        // 프로필 버튼 눌렀을 때 친구 위치 확인하기 - j
+        binding.profileImage.setOnClickListener {
+            findNavController().navigate(R.id.action_chatFragment_to_show_locationFragment)
         }
 
         // 전송 버튼 클릭 이벤트

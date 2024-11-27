@@ -20,15 +20,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="#F2BD6D">
 
+        <!-- 버튼 이미지를 벡터로 변경하였습니다. tint에서 경고발생하는건 무시해도 됨 j -->
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:backgroundTint="#F2BD6D"
+            android:backgroundTint="@color/app_origin"
+            android:tint="@color/white"
             android:contentDescription="@string/back_button"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/back_icon_vector_black" />
 
-        <ImageView
+        <!-- 기존 이미지에서 이미지버튼으로 변경하였습니다. src는 나중에 firebase로 받아서 변경 j -->
+        <ImageButton
             android:id="@+id/profile_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
