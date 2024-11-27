@@ -5,11 +5,12 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/login_Fragment">
 
+    <!-- 로그인 화면 -->
     <fragment
         android:id="@+id/login_Fragment"
         android:name="com.example.opp_e2guana.login_Fragment"
-        android:label="fragment_login_"
-        tools:layout="@layout/fragment_login" >
+        android:label="로그인"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_Fragment_to_friendlistFragment"
             app:destination="@id/friendlistFragment" />
@@ -17,11 +18,13 @@
             android:id="@+id/action_login_Fragment_to_signinFragment"
             app:destination="@id/signinFragment" />
     </fragment>
+
+    <!-- 회원가입 화면 -->
     <fragment
         android:id="@+id/signinFragment"
         android:name="com.example.opp_e2guana.signinFragment"
-        android:label="fragment_signin"
-        tools:layout="@layout/fragment_signin" >
+        android:label="회원가입"
+        tools:layout="@layout/fragment_signin">
         <action
             android:id="@+id/action_signinFragment_to_friendlistFragment"
             app:destination="@id/friendlistFragment" />
@@ -29,42 +32,61 @@
             android:id="@+id/action_signinFragment_to_login_Fragment"
             app:destination="@id/login_Fragment" />
     </fragment>
+
+    <!-- 친구 목록 화면 -->
     <fragment
         android:id="@+id/friendlistFragment"
         android:name="com.example.opp_e2guana.friendlistFragment"
         android:label="친구 목록"
         tools:layout="@layout/fragment_friendlist">
+        <!-- 친구 목록 -> 채팅창 -->
         <action
             android:id="@+id/action_friendlistFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            app:destination="@id/chatFragment">
+            <!-- pr15이후 추가된 유저별 채팅방 식별을 위한 개별 ID -->
+            <argument
+                android:name="userId"
+                app:argType="string" />
+        </action>
+        <!-- 친구 목록 -> 위치 보기 -->
         <action
             android:id="@+id/action_friendlistFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
+        <!-- 친구 목록 -> 프로필 설정 -->
         <action
             android:id="@+id/action_friendlistFragment_to_profile_settingFragment"
             app:destination="@id/profile_settingFragment" />
     </fragment>
+
+    <!-- 채팅창 -->
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.opp_e2guana.chatFragment"
         android:label="채팅창"
         tools:layout="@layout/fragment_chat">
+        <!-- 채팅창 -> 위치 보기 -->
         <action
             android:id="@+id/action_chatFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
     </fragment>
+
+    <!-- 프로필 설정 -->
     <fragment
         android:id="@+id/profile_settingFragment"
         android:name="com.example.opp_e2guana.profile_settingFragment"
-        android:label="프로필설정"
+        android:label="프로필 설정"
         tools:layout="@layout/fragment_profile_setting" />
+
+    <!-- 친구 위치 보기 -->
     <fragment
         android:id="@+id/show_locationFragment"
         android:name="com.example.opp_e2guana.show_locationFragment"
         android:label="친구 위치"
         tools:layout="@layout/fragment_show_location">
+        <!-- 위치 보기 -> 채팅창 -->
         <action
             android:id="@+id/action_show_locationFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
     </fragment>
+
 </navigation>

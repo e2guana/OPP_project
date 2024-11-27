@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    // alias(libs.plugins.navigation.safeargs) // SafeArgs 플러그인 적용
 }
 
 android {

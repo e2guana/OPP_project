@@ -60,8 +60,11 @@ class chatFragment : Fragment() {
             }
         }
 
-        //ViewModel 가져오는 부분
-
+        // **뒤로가기 버튼 클릭 이벤트**
+        binding.btnBack.setOnClickListener {
+            // FragmentManager를 사용해 현재 Fragment를 스택에서 제거
+            parentFragmentManager.popBackStack()
+        }
     }
 
     override fun onDestroyView() {
