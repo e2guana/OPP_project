@@ -43,10 +43,10 @@ class profile_settingFragment : Fragment() {
 
         viewModel.show_name.observe(viewLifecycleOwner) {//뷰모델에 있는 라이브 데이터를 가져다가 바인딩? 한다고 함(이 프레그먼트의 viewlifecycle만큼 볼거다, this는 쓰면 안됨)
             binding?.let() {
-                it.showName?.setText(viewModel.show_name.value)
-                it.showEmail?.setText(viewModel.show_email.value)
-                it.editName?.hint = viewModel.show_name.value   //hint는 글자가 쓰여있는게 아니라 그뒤로 보이는 내용임
-                it.editEmail?.hint = viewModel.show_email.value
+                it.showName.setText(viewModel.show_name.value)
+                it.showEmail.setText(viewModel.show_email.value)
+                it.editName.hint = viewModel.show_name.value   //hint는 글자가 쓰여있는게 아니라 그뒤로 보이는 내용임
+                it.editEmail.hint = viewModel.show_email.value
             }
         }
 
