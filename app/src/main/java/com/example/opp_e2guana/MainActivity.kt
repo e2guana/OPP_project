@@ -32,12 +32,15 @@ class MainActivity : AppCompatActivity() {
         /*
         프레그먼트 전환 이벤트 감지, 내비게이션 대상이 변경될 때마다 호출됨.
         2번째 파라미터인 destination이 현재 보여지고 있는 프레그먼트가 어떤건지를 알고 있음
+
+        이 부분은 특정 프레그먼트에서 네비게이션 바를 안보이게 하기 위한 함수임
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
             Log.d("destination","${destination}")
             when (destination.id) {
                 R.id.login_Fragment -> binding.bottomNav.visibility = View.GONE     //로그인
-                R.id.signinFragment -> binding.bottomNav.visibility = View.GONE   //회원가입
+                R.id.signinFragment -> binding.bottomNav.visibility = View.GONE     //회원가입
+                R.id.chatFragment -> binding.bottomNav.visibility = View.GONE       //채팅방
                 else -> binding.bottomNav.visibility = View.VISIBLE
             }
         }
