@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuthException
 
 class login_Fragment : Fragment() {
     val viewModel: Userdata_viewmodel by activityViewModels()       //사용자 정보는 나중에 firebase에서 받아와야 합니다!

@@ -7,19 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".profile_settingFragment">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="프로필 설정화면"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
-
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="wrap_content"
@@ -96,7 +83,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="비밀번호 변경"
+            android:hint="새 비밀번호"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/check_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="기존 비밀번호"
             android:inputType="textPassword" />
 
         <Button

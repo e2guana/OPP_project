@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641923759274",
+    "project_id": "opp-e2guana",
+    "storage_bucket": "opp-e2guana.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641923759274:android:7029d8114a67990705a4d3",
+        "android_client_info": {
+          "package_name": "com.example.opp_e2guana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQytzTf9U_VZXusD1mdf9TihKuM3Lt7Os"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

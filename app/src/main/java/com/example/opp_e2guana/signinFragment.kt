@@ -10,9 +10,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentSigninBinding
 import android.content.Intent //여기부터 이미지 관련 임포트
 import android.net.Uri
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 
 class signinFragment : Fragment() {
