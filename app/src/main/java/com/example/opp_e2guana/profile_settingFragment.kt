@@ -15,6 +15,10 @@ import com.example.opp_e2guana.databinding.FragmentProfileSettingBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 
 /*
@@ -28,7 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 class profile_settingFragment : Fragment() {
     //val viewModel: Userdata_viewmodel by viewModels() //viewModel을 viewModels로 위임한다(lazy처럼 적절하게 늦게 초기화함), -j
-    val viewModel : Userdata_viewmodel by activityViewModels() //activity에 있는 (상위)모델을 보고 초기화한다 -j
+    val viewModel: Userdata_viewmodel by activityViewModels() //activity에 있는 (상위)모델을 보고 초기화한다 -j
 
     var binding: FragmentProfileSettingBinding? = null
     //우선 사용자 정보에 대한 번들이 넘어와야됨 이건 모두와 상의해서 어떤 식으로 번들을 주고 받을건지 정해야함! -j
@@ -44,15 +48,24 @@ class profile_settingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.show_name.observe(viewLifecycleOwner) { //뷰모델에 있는 라이브 데이터를 가져다가 바인딩? 한다고 함(이 프레그먼트의 viewlifecycle만큼 볼거다, this는 쓰면 안됨) -j
-            binding?.let() {
-                it.showName.setText(viewModel.show_name.value)
-                it.showEmail.setText(viewModel.show_email.value)
-                it.editName.hint = viewModel.show_name.value   //hint는 글자가 쓰여있는게 아니라 그뒤로 보이는 내용임 -j
-                it.editEmail.hint = viewModel.show_email.value
+        //Firebase에서 사용자 데이터를 가져온다 -MOON
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        viewModel.fetchUserData(userId) //viewModel에 동기화
+
+        // 이름 변경에 대한 옵저버 -MOON 전화번호랑 이름이랑 옵저버 나눠놨습니다.
+        viewModel.show_name.observe(viewLifecycleOwner) { name ->
+            binding?.let { //뷰모델에 있는 라이브 데이터를 가져다가 바인딩? 한다고 함(이 프레그먼트의 viewlifecycle만큼 볼거다, this는 쓰면 안됨) -j
+                it.showName.setText(name) // 이름 변경 사항을 UI에 반영
+                it.editName.hint = name   // hint 설정
             }
         }
-
+        // 전화번호 변경에 대한 옵저버ㅁ
+        viewModel.show_phone.observe(viewLifecycleOwner) { phone ->
+            binding?.let {
+                it.showPhone.setText(phone) // 전화번호 변경 사항을 UI에 반영
+                it.editPhone.hint = phone   // hint 설정
+            }
+        }
 
         binding?.resettingButton?.setOnClickListener {                  //변경하기 버튼, 이곳을 누르면 수정할건지 되물어보는 팝업창을 띄워야함! -j
             // showResettingDialog()
@@ -61,7 +74,8 @@ class profile_settingFragment : Fragment() {
     }
 
     fun showResettingDialog() {                          //팝업창 -j
-        val check_password = binding?.checkPassword?.text.toString()        //비밀번호 변경 전 기존 비밀번호 확인 -j
+        val check_password =
+            binding?.checkPassword?.text.toString()        //비밀번호 변경 전 기존 비밀번호 확인 -j
 
         MaterialAlertDialogBuilder(requireContext())    //메인 액티비티에서는 Context를 상속 받지만, 프레그먼트에서는 별도로 가져와야함 -j
             .setMessage("변경하시겠습니까?")
@@ -77,23 +91,36 @@ class profile_settingFragment : Fragment() {
     }
 
     fun passwordCheck(password: String) {
-        val original_password = viewModel.show_password.value
-        if(password != original_password) {
-            Toast.makeText(context,"잘못된 비밀번호 입니다!", Toast.LENGTH_SHORT).show()
-        } else {
-            val name = binding?.editName?.text.toString()                       //임시 테스트 -j
-            val email = binding?.editEmail?.text.toString()
-            val password = binding?.editPassword?.text.toString()
+        val original_email = viewModel.show_email.value ?: "" // 이메일도 함께 가져오기 (loginUser 함수를 쓰기 위함)
+        val original_phone = viewModel.show_phone.value ?: ""
+        val original_name = viewModel.show_name.value ?: ""
+        val new_password = binding?.editPassword?.text.toString()
 
-            viewModel.let {                                            //이 부분 반환할 때 예를들어 이름만 바뀌면 나머지 메일이랑 비번은 null로 가서 초기화 되는게 아니라 이전에 있던 데이터를 유지해야됨 -j
-                it.set_name(name)                                      //파라미터는 무조건 string으로만 보내야해서 false를 넣을 순 없음 -j
-                it.set_email(email)
-                it.set_password(password)
+        //loginUser 함수를 이용해 비밀번호 검증 -MOON
+        viewModel.loginUser(original_email, password) { success, errormessage ->
+            if (success) {
+                val name = binding?.editName?.text?.toString()?.takeIf { it.isNotEmpty() }
+                    ?: original_name //null이거나 공백일 때 기존 이름 유지
+                val phone = binding?.editPhone?.text?.toString()?.takeIf { it.isNotEmpty() }
+                    ?: original_phone //null이거나 공백일 때 기존 이메일 유지
+
+                //phone 유효성 검사 함수 사용해야합니다. viewmodel에 isvaildPhone함수 있습니다. 사용법은 signinFragment.kt 참고 -MOON
+
+                // viewModel 사용자정보 업데이트
+                viewModel.let {
+                    it.set_name(name)
+                    it.set_phone(phone)
+                    it.set_password(password)
+                }
+                // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
+                viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
+                Log.d("Firebase", "orpw $password newpw $new_password")
+                viewModel.updatePassword(new_password)
+                Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
+            } else {
+                //비밀번호가 틀린경우
+                Toast.makeText(context, "잘못된 비밀번호 입니다!", Toast.LENGTH_SHORT).show()
             }
-
-            //파이어베이스 내용 변경 확인 후 변경 성공했다고 알리기 -j
-
-            Toast.makeText(context,"변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
         }
     }
 }
