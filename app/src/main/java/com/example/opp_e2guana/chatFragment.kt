@@ -1,7 +1,7 @@
 package com.example.opp_e2guana
 
+import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,6 +71,22 @@ class chatFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             // FragmentManager를 사용해 현재 Fragment를 스택에서 제거
             parentFragmentManager.popBackStack()
+        }
+
+        // 키보드 이벤트 감지
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            binding.root.getWindowVisibleDisplayFrame(rect)
+            val screenHeight = binding.root.rootView.height
+            val keypadHeight = screenHeight - rect.bottom
+
+            if (keypadHeight > screenHeight * 0.15) {
+                // 키보드가 열렸을 때
+                binding.bottomBar.translationY = -keypadHeight.toFloat()
+            } else {
+                // 키보드가 닫혔을 때
+                binding.bottomBar.translationY = 0f
+            }
         }
     }
 
