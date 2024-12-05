@@ -73,6 +73,7 @@
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:padding="8dp"
+        android:gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -80,12 +81,16 @@
         <EditText
             android:id="@+id/input_message"
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/rounded_edittext_background"
             android:hint="메시지를 입력하세요"
             android:imeOptions="actionSend"
-            android:inputType="text"
+            android:inputType="textMultiLine|textCapSentences"
+            android:singleLine="false"
+            android:maxLines="5"
+            android:scrollHorizontally="false"
+            android:gravity="start"
             android:padding="12dp"
             android:textColor="#000000"
             android:textColorHint="#808080" />
