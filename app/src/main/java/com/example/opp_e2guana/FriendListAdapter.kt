@@ -15,7 +15,7 @@ class FriendListAdapter(
     data class Friend_Data(
         val user_id: String,
         val name: String,
-        val contact: String
+        val phone: String
     )
 
     // ViewHolder 클래스 정의
@@ -33,7 +33,7 @@ class FriendListAdapter(
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val friend = friendArray[position] // Array에서 데이터 가져오기
         holder.friendName.text = friend.name
-        holder.friendContact.text = friend.contact
+        holder.friendContact.text = friend.phone
 
         // 아이템 클릭 이벤트 처리
         holder.itemView.setOnClickListener {

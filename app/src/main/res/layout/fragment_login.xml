@@ -64,7 +64,7 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- 이메일 형식 오류 메시지 박스 (초기 상태에서 숨김) -->
+    <!-- 오류 메시지 박스 (초기 상태에서 숨김) -->
     <LinearLayout
         android:id="@+id/errorMessageBox"
         android:layout_width="wrap_content"
@@ -79,12 +79,12 @@
         android:gravity="center"
         android:visibility="gone">  <!-- 처음에는 숨김 -->
 
-        <!-- 이메일 형식 오류 메시지 -->
+        <!-- 오류 메시지 -->
         <TextView
-            android:id="@+id/emailErrorMessage"
+            android:id="@+id/errorMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="올바른 이메일 형식이 아닙니다"
+            android:text="오류 메시지"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="18sp"
             android:gravity="center" />

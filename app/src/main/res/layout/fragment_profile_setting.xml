@@ -41,10 +41,10 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/show_email"
+            android:id="@+id/show_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="이메일주소"
+            android:text="연락처"
             android:textAlignment="center"
             android:textColor="#808080"
             android:textSize="20sp" />
@@ -70,13 +70,14 @@
             android:hint="닉네임"
             android:inputType="text" />
 
+        <!-- 여기 id 수정할게요. email-> phone -->
         <EditText
-            android:id="@+id/edit_email"
+            android:id="@+id/edit_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="이메일 주소"
-            android:inputType="textEmailAddress" />
+            android:hint="연락처"
+            android:inputType="phone" />
 
         <EditText
             android:id="@+id/edit_password"
