@@ -62,7 +62,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-auth")                //파이어베이스 auth 진행 중 추가한 내용
     implementation("com.google.firebase:firebase-storage") // Firebase Storage 추가
-
+    implementation("com.squareup.picasso:picasso:2.8")
 
 
     testImplementation(libs.junit)

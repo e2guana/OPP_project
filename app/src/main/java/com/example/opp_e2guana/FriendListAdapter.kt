@@ -15,7 +15,8 @@ class FriendListAdapter(
     data class Friend_Data(
         val user_id: String,
         val name: String,
-        val phone: String
+        val phone: String,
+        val profileImageUrl: String
     )
 
     // ViewHolder 클래스 정의

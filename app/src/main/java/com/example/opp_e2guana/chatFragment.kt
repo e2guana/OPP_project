@@ -14,6 +14,8 @@ import com.example.opp_e2guana.adapter.ChatAdapter
 import com.example.opp_e2guana.databinding.FragmentChatBinding
 import com.example.opp_e2guana.viewmodel.ChatViewModel
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+import com.squareup.picasso.Picasso
+
 
 class chatFragment : Fragment() {
 
@@ -51,6 +53,13 @@ class chatFragment : Fragment() {
         chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
             adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
             binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
+        }
+
+        // 선택된 친구 정보 가져오기
+        userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
+            binding.profileName.text = friend.name
+            // Picasso 또는 Glide를 사용해 프로필 이미지를 설정
+            Picasso.get().load(friend.profileImageUrl).into(binding.profileImage)
         }
 
         // 프로필 버튼 눌렀을 때 친구 위치 확인하기 - j
