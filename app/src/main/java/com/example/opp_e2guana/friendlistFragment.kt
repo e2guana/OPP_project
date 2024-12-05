@@ -6,13 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opp_e2guana.databinding.FragmentFriendlistBinding
-import androidx.fragment.app.activityViewModels
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 
@@ -32,7 +31,7 @@ class friendlistFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceㅁㄴState: Bundle?
     ): View? {
         // 바인딩 초기화
         binding = FragmentFriendlistBinding.inflate(inflater, container, false)
