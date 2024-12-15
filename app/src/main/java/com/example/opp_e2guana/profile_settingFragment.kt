@@ -29,6 +29,12 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
    - j
  */
 
+//기존에 가지고 있는 유저 정보 내용들, 변수들 하나로 묶어버립시다. - j
+data class Original_user(
+    val email: String,
+    val phone: String,
+    val name: String
+)
 
 class profile_settingFragment : Fragment() {
     //val viewModel: Userdata_viewmodel by viewModels() //viewModel을 viewModels로 위임한다(lazy처럼 적절하게 늦게 초기화함), -j
@@ -68,9 +74,17 @@ class profile_settingFragment : Fragment() {
         }
 
         binding?.resettingButton?.setOnClickListener {                  //변경하기 버튼, 이곳을 누르면 수정할건지 되물어보는 팝업창을 띄워야함! -j
-            // showResettingDialog()
             showResettingDialog()
         }
+
+        /*
+        계정 삭제 로직 구현
+        계삭 할건지 물어보기 -> 파이어베이스 계삭 요청 -> 삭제 됬다면 True반환되게 설정함 -> 삭제되면 자동으로 로그아웃
+         */
+        binding?.removeButton?.setOnClickListener {                     // 계정 삭제 버튼,
+            Log.d("profilesetting", "remove button")
+        }
+
     }
 
     fun showResettingDialog() {                          //팝업창 -j
@@ -90,21 +104,42 @@ class profile_settingFragment : Fragment() {
             .show()
     }
 
+    /*
+    이 부분 코드 로직 좀 다시 점검 해볼 것. 리턴하는게 살짝 애매한데...
+    비번 검증 -> 메일, 폰번호 유효성 검사 ->  문제 없으면 firebase올리고 정상적으로 변경됬는지 확인 및 반환
+     */
+
     fun passwordCheck(password: String) {
-        val original_email = viewModel.show_email.value ?: "" // 이메일도 함께 가져오기 (loginUser 함수를 쓰기 위함)
-        val original_phone = viewModel.show_phone.value ?: ""
-        val original_name = viewModel.show_name.value ?: ""
+        val original = Original_user(
+            email = viewModel.show_email.value ?: "", // 이메일도 함께 가져오기 (loginUser 함수를 쓰기 위함)
+            phone = viewModel.show_phone.value ?: "",
+            name = viewModel.show_name.value ?: ""
+        )
         val new_password = binding?.editPassword?.text.toString()
 
         //loginUser 함수를 이용해 비밀번호 검증 -MOON
-        viewModel.loginUser(original_email, password) { success, errormessage ->
+        viewModel.loginUser(original.email, password) { success, errormessage ->
             if (success) {
-                val name = binding?.editName?.text?.toString()?.takeIf { it.isNotEmpty() }
-                    ?: original_name //null이거나 공백일 때 기존 이름 유지
-                val phone = binding?.editPhone?.text?.toString()?.takeIf { it.isNotEmpty() }
-                    ?: original_phone //null이거나 공백일 때 기존 이메일 유지
+                val name = binding?.editName?.text?.toString()?.takeIf {
+                    it.isNotEmpty()
+                    it.isBlank()
+                } ?: original.name //null이거나 공백일 때 기존 이름 유지
+                val phone = binding?.editPhone?.text?.toString()?.takeIf {
+                    it.isNotEmpty()
+                    it.isBlank()
+                } ?: original.phone //null이거나 공백일 때 기존 이메일 유지
+
 
                 //phone 유효성 검사 함수 사용해야합니다. viewmodel에 isvaildPhone함수 있습니다. 사용법은 signinFragment.kt 참고 -MOON
+
+                /*
+                if (!viewModel.isValidPhone(phone)) {
+                    Toast.makeText(context, "연락처 형식이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+                 */
+                // 전화번호 데이터가 안넘어가고 있음
+
 
                 // viewModel 사용자정보 업데이트
                 viewModel.let {
@@ -124,3 +159,5 @@ class profile_settingFragment : Fragment() {
         }
     }
 }
+
+// 비번 안써도 되도록 수정하기, 비번을 안쓰면 널이 들어가서 다음에 로그인할 때 튕기는 현상 발견
