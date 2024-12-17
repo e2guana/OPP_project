@@ -76,13 +76,13 @@ class chatFragment : Fragment() {
             }
         }
 
-        // **뒤로가기 버튼 클릭 이벤트**
+        //뒤로가기 이벤트
         binding.btnBack.setOnClickListener {
             // FragmentManager를 사용해 현재 Fragment를 스택에서 제거
             parentFragmentManager.popBackStack()
         }
 
-        // 키보드 이벤트 감지
+        // 키보드 이벤트
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
             val rect = Rect()
             binding.root.getWindowVisibleDisplayFrame(rect)

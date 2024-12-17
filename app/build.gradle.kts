@@ -63,6 +63,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")                //파이어베이스 auth 진행 중 추가한 내용
     implementation("com.google.firebase:firebase-storage") // Firebase Storage 추가
     implementation("com.squareup.picasso:picasso:2.8")
+    implementation ("com.google.android.gms:play-services-basement:latest-version") //강종 오류 해결 위해서 넣음
 
 
     testImplementation(libs.junit)

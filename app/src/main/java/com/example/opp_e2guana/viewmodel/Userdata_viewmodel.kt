@@ -196,7 +196,7 @@ class Userdata_viewmodel : ViewModel() {
                 val name = child.child("name").value as? String ?: "Unknown"
                 val phone = child.child("phone").value as? String ?: "No Phone"
                 val profileImageUrl = child.child("profileImageUrl").value as? String
-                    ?: "https://example.com/default_profile_image.jpg"
+                    ?: "https://"
                 friends.add(FriendListAdapter.Friend_Data(userId, name, phone, profileImageUrl))
             }
             friendList.value = friends // ViewModel 변수에 데이터 저장
