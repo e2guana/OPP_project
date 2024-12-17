@@ -117,44 +117,41 @@ class profile_settingFragment : Fragment() {
         )
         val new_password = binding?.editPassword?.text.toString()
 
-        //loginUser 함수를 이용해 비밀번호 검증 -MOON
-        viewModel.loginUser(original.email, password) { success, errormessage ->
-            if (success) {
-                val name = binding?.editName?.text?.toString()?.takeIf {
-                    it.isNotEmpty()
-                    it.isBlank()
-                } ?: original.name //null이거나 공백일 때 기존 이름 유지
-                val phone = binding?.editPhone?.text?.toString()?.takeIf {
-                    it.isNotEmpty()
-                    it.isBlank()
-                } ?: original.phone //null이거나 공백일 때 기존 이메일 유지
+        val name = binding?.editName?.text?.toString()!!?.takeIf {
+            it.isNotBlank()
+        } ?: original.name //null이거나 공백일 때 기존 이름 유지
+        val phone = binding?.editPhone?.text?.toString()?.takeIf {
+            it.isNotBlank()
+        } ?: original.phone //null이거나 공백일 때 기존 이메일 유지
 
+        Log.e("name", "$name")
+        Log.e("phone", "$phone")
 
-                //phone 유효성 검사 함수 사용해야합니다. viewmodel에 isvaildPhone함수 있습니다. 사용법은 signinFragment.kt 참고 -MOON
+        //phone 유효성 검사 함수 사용해야합니다. viewmodel에 isvaildPhone함수 있습니다. 사용법은 signinFragment.kt 참고 -MOON
 
-                /*
-                if (!viewModel.isValidPhone(phone)) {
-                    Toast.makeText(context, "연락처 형식이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
-                    return
+        if (!viewModel.isValidPhone(phone)) {
+            Toast.makeText(context, "연락처 형식이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
+        }                                                                                         //연락처 검사 이후 문제 없으면 파이어베이스 업로드 - j
+        else {
+            //loginUser 함수를 이용해 비밀번호 검증 -MOON
+            viewModel.loginUser(original.email, password) { success, errormessage ->
+                if (success) {
+                    // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
+                    viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
+                    Log.d("Firebase", "orpw $password newpw $new_password")
+                    viewModel.updatePassword(new_password)
+                    Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
+
+                    // viewModel 사용자정보 업데이트 <- 파이어베이스가 성공적으로 변경되고 난 후 업뎃해야 함 - j
+                    viewModel.let {
+                        it.set_name(name)
+                        it.set_phone(phone)
+                        it.set_password(password)
+                    }
+                } else {
+                    //비밀번호가 틀린경우
+                    Toast.makeText(context, "잘못된 비밀번호 입니다!", Toast.LENGTH_SHORT).show()
                 }
-                 */
-                // 전화번호 데이터가 안넘어가고 있음
-
-
-                // viewModel 사용자정보 업데이트
-                viewModel.let {
-                    it.set_name(name)
-                    it.set_phone(phone)
-                    it.set_password(password)
-                }
-                // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
-                viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
-                Log.d("Firebase", "orpw $password newpw $new_password")
-                viewModel.updatePassword(new_password)
-                Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
-            } else {
-                //비밀번호가 틀린경우
-                Toast.makeText(context, "잘못된 비밀번호 입니다!", Toast.LENGTH_SHORT).show()
             }
         }
     }

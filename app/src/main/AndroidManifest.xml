@@ -18,6 +18,10 @@
         android:theme="@style/Theme.OPP_e2guana"
         tools:targetApi="31">
 
+        <!-- 포어그라운드 서비스 -->
+        <service
+            android:name=".ProgressService"/>
+
         <!-- 아파치 API 사용 -->
         <uses-library
             android:name="org.apache.http.legacy"
