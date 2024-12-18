@@ -69,7 +69,6 @@ class friendlistFragment : Fragment() {
         })
     }
 
-
     // RecyclerView를 업데이트하는 함수
     private fun updateRecyclerView(friends: List<FriendListAdapter.Friend_Data>) {
         // 어댑터 설정 및 클릭 리스너 연결
