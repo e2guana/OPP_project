@@ -143,7 +143,7 @@ class profile_settingFragment : Fragment() {
                     }
 
                     // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
-                    viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
+                    viewModel.uploadUserDataToFirebase()
                     Log.d("Firebase", "orpw $password newpw $new_password")
                     viewModel.updatePassword(new_password)
                     Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()

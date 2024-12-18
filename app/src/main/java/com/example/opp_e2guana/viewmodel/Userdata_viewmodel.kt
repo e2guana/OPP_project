@@ -1,5 +1,9 @@
 package com.example.opp_e2guana.viewmodel
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,8 +13,14 @@ import com.example.opp_e2guana.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
 
 class Userdata_viewmodel : ViewModel() {
+
+    companion object { // 기본 이미지 URL
+        const val DEFAULT_PROFILE_IMAGE_URL = "android.resource://com.example.opp_e2guana/drawable/ic_profile_icon"
+    }
 
     //라이브 데이터라고 해서 (외부)프레그먼트에서 모니터링(옵저브)할 수 있는 string임, 외부 관찰은 가능하나 함부로 못바꿈(private 반드시 걸것)
     private val name = MutableLiveData<String>("UNKNOWN")
@@ -25,9 +35,13 @@ class Userdata_viewmodel : ViewModel() {
     private val password = MutableLiveData<String>("error") //패스워드는 당연히 보이면 안됨!!
     val show_password: LiveData<String> get() = password          //비밀번호 변경할 때 검증 목적으로
 
-    private val imageURL =
-        MutableLiveData<String>("https://example.com/default_profile_image.jpg") // 기본 이미지 URL 설정
-    val show_imageURL: LiveData<String> get() = imageURL // -MOON이 추가(2024.12.02)
+    private val imageURL = MutableLiveData<String>(DEFAULT_PROFILE_IMAGE_URL)
+    val show_imageURL: LiveData<String> get() = imageURL
+
+    private val imageBitmap = MutableLiveData<Bitmap>()
+    val show_imageBitmap: LiveData<Bitmap> get() = imageBitmap
+
+    var imageData: ByteArray? = null
 
     // 친구 목록 데이터를 저장하는 변수
     private val friendList = MutableLiveData<List<FriendListAdapter.Friend_Data>>()
@@ -55,93 +69,58 @@ class Userdata_viewmodel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
 
-    fun set_name(nameData: String) {                     //이름 변경
-        Log.d("name", "$nameData")
-            name.value = name.value?.let {
-                nameData
-            } ?: "UNKNOWN"
+    fun set_name(nameData: String) { name.value = nameData }
 
-//        val setName = name.value?.let {                 //name.value를 바꾸지 않고 리포지토리로 발로 올리게 됨. DB의존도가 더 커지는거 아닌가?
-//                nameData
-//            } ?: "UNKNOWN"
-//
-//        repository.postName(setName)
-    }
+    fun set_email(emailData: String) { emailAddress.value = emailData }
 
-    fun set_email(emailData: String) {                   //이메일 변경
-        Log.d("email", "$emailData")
-        emailAddress.value = emailAddress.value?.let {
-            emailData
-        } ?: "Not have email"
-    }
+    fun set_phone(phone: String) { phoneNumber.value = phone }
 
-    fun set_phone(phone: String) {                       //전화번호 변경
-        Log.d("phone", "$phone")
-        phoneNumber.value = phoneNumber.value?.let {
-            phone
-        } ?: "Not have phoneNumber"
-    }
+    fun set_imageURL(imageURLdata: String) { imageURL.value = imageURLdata }
 
-    fun set_password(setPassword: String) {              //패스워드 변경
-        Log.d("password", "$setPassword")
-        password.value = password.value?.let {
-            setPassword
-        } ?: "Error"
-    }
-
-    fun set_imageURL(imageURLdata: String) {             //프로필이미지url변경
-        Log.d("imageURL", "$imageURLdata")
-        imageURL.value = imageURLdata
-    }
+    fun set_password(passwordData: String) { password.value = passwordData }
 
     // Firebase Auth에 계정 생성 및 로그인, 경현이 사용하는 함수 -MOON
     fun createFirebaseUser(onComplete: (Boolean, Exception?) -> Unit) {
         val email = emailAddress.value ?: ""
-        val password = this.password.value ?: ""
+        val password = password.value ?: ""
 
         // Firebase Auth에 계정 생성
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("Firebase", "User account create Success")
-                    // Firebase Realtime Database에 데이터 업로드
-                    val currentImageUrl = imageURL.value
-                        ?: "https://example.com/default_profile_image.jpg" // 기본 URL 처리
-                    uploadUserDataToFirebase(currentImageUrl) // String 타입 URL 전달
-                    // 성공 콜백
-                    onComplete(true, null)
+                    uploadUserDataToFirebase() // String 타입 URL 전달
+                    onComplete(true, null) // 성공 콜백
                 } else {
-                    // 실패 콜백
-                    Log.e("Firebase", "User account create Fail", task.exception)
-                    onComplete(false, task.exception)
+                    onComplete(false, task.exception) // 실패 콜백
                 }
             }
     }
 
     // Firebase에 사용자 정보 변경, 경현,승훈이 둘다 사용하는 함수 -MOON
-    fun uploadUserDataToFirebase(imageUrl: String) {
+    fun uploadUserDataToFirebase() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val userId = currentUser.uid
             val userMap = mapOf(
                 "name" to name.value,
                 "email" to emailAddress.value,
                 "phone" to phoneNumber.value,
-                "profileImageUrl" to imageUrl // 이미지 URL 추가
+                "profileImageUrl" to imageURL.value
             )
 
-            database.child("users").child(userId).setValue(userMap)
+            // 여기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ
+            database.child("users").child(currentUser.uid).setValue(userMap)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("Firebase", "User data with profile upload Success")
+                        Log.d("UserdataViewModel", "User data uploaded successfully")
                     } else {
-                        Log.e("Firebase", "User data with profile upload Fail", task.exception)
+                        Log.e("UserdataViewModel", "Failed to upload user data")
                     }
                 }
         } else {
-            Log.e("Firebase", "No user found in Auth")
+            Log.e("UserdataViewModel", "No authenticated user found")
         }
     }
+
 
     // firebase에서 사용자 계정 삭제 - j
     fun removeUserDataToFirebase(onComplete: (Boolean) -> Unit) {   //콜백을 통해서 T/F를 반환하고, 프로필세팅에서 반환 값보고 로직 추가할 예정
@@ -208,12 +187,16 @@ class Userdata_viewmodel : ViewModel() {
             val name = snapshot.child("name").value as? String ?: "UNKNOWN"
             val email = snapshot.child("email").value as? String ?: "Not have email"
             val phone = snapshot.child("phone").value as? String ?: "Not have phoneNumber"
+            val profileImageUrl = snapshot.child("profileImageUrl").value as? String
+                ?: "https://example.com/default_profile_image.jpg" // 기본 이미지 URL
 
+            // ViewModel 변수 업데이트
             set_name(name)
             set_email(email)
             set_phone(phone)
+            set_imageURL(profileImageUrl)
 
-            Log.d("Firebase", "User data fetched: Name=$name, Phone=$phone")
+            Log.d("Firebase", "User data fetched: Name=$name, Phone=$phone, ProfileImageUrl=$profileImageUrl")
         }.addOnFailureListener {
             Log.e("Firebase", "Failed to fetch user data", it)
         }
@@ -238,6 +221,62 @@ class Userdata_viewmodel : ViewModel() {
             friendList.postValue(emptyList()) // 실패 시 빈 리스트
         }
     }
+
+    // 이미지 데이터를 저장 (갤러리에서 선택된 이미지 처리)
+    fun saveImageData(context: Context, uri: Uri) {
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream?.close()
+
+            val croppedBitmap = cropToSquare(bitmap)
+            val outputStream = ByteArrayOutputStream()
+            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+
+            imageData = outputStream.toByteArray()
+            imageBitmap.value = croppedBitmap
+            Log.d("UserdataViewModel", "Image data saved successfully")
+        } catch (e: Exception) {
+            Log.e("UserdataViewModel", "Failed to process image: ${e.message}")
+            imageData = null
+        }
+    }
+
+    // 프로필 이미지를 정사각형으로 크롭하는 이미지 처리 함수
+    private fun cropToSquare(bitmap: Bitmap): Bitmap {
+        val size = minOf(bitmap.width, bitmap.height)
+        val xOffset = (bitmap.width - size) / 2
+        val yOffset = (bitmap.height - size) / 2
+        return Bitmap.createBitmap(bitmap, xOffset, yOffset, size, size)
+    }
+
+    // Firebase Storage에 프로필 이미지 업로드
+    fun uploadProfileImage(onComplete: (String?) -> Unit) {
+        if (imageData == null) { // 이미지가 비어있을 때 기본 이미지로 대체
+            onComplete(DEFAULT_PROFILE_IMAGE_URL)
+            return
+        }
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val profileRef = storageRef.child("profiles/${System.currentTimeMillis()}.jpg")
+
+        profileRef.putBytes(imageData!!)
+            .addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener { uri ->
+                    Log.d("UserdataViewModel", "Image uploaded: $uri")
+                    onComplete(uri.toString()) // 이미지 업로드
+                }.addOnFailureListener {
+                    Log.e("UserdataViewModel", "Failed to get download URL.")
+                    onComplete(DEFAULT_PROFILE_IMAGE_URL)
+                }
+            }.addOnFailureListener {
+                Log.e("UserdataViewModel", "Image upload failed.")
+                onComplete(DEFAULT_PROFILE_IMAGE_URL)
+            }
+    }
+
+
+
     /*
     // Firebase에서 다른사용자(친구)의 데이터를 가져오는 함수(원래 함수)
     fun fetchFriendsData(onComplete: (List<FriendListAdapter.Friend_Data>) -> Unit) {
