@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!--정확도가 부정확한 위치-->
     <!--인터넷을 통해서 지도를 불러와야 하기에 같이 퍼미션 해줘야 함-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 포어그라운드 서비스 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

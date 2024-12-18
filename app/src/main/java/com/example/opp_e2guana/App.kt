@@ -6,14 +6,14 @@ import android.app.NotificationManager
 import android.os.Build
 import android.os.Build.VERSION_CODES
 
-class App: Application {
+class App: Application() {
     companion object {
         const val PRGRESS_CHANNEL_ID = "com.example.progressnotification"//example.e2guana.progress 이렇게 써야하는거 아닌가
     }
 
     override fun onCreate() {
         super.onCreate()
-        if(Build.VERSION.SDK_INT >= VERSION_CODES.0) {
+        if(Build.VERSION.SDK_INT >= VERSION_CODES.O) {
             getSystemService(NotificationManager::class.java).run {
                 val progressChannel = NotificationChannel(
                     PRGRESS_CHANNEL_ID,

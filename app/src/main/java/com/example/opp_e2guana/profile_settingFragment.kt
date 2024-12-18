@@ -136,18 +136,17 @@ class profile_settingFragment : Fragment() {
             //loginUser 함수를 이용해 비밀번호 검증 -MOON
             viewModel.loginUser(original.email, password) { success, errormessage ->
                 if (success) {
-                    // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
-                    viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
-                    Log.d("Firebase", "orpw $password newpw $new_password")
-                    viewModel.updatePassword(new_password)
-                    Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
-
-                    // viewModel 사용자정보 업데이트 <- 파이어베이스가 성공적으로 변경되고 난 후 업뎃해야 함 - j
                     viewModel.let {
                         it.set_name(name)
                         it.set_phone(phone)
                         it.set_password(password)
                     }
+
+                    // Firebase에 사용자 정보 업로드, 일단 매개변수로 받는 URL은 임시로 기본이미지 주소로 함. 추후 수정 필요 -MOON
+                    viewModel.uploadUserDataToFirebase("android.resource://com.example.opp_e2guana/drawable/ic_profile_icon")
+                    Log.d("Firebase", "orpw $password newpw $new_password")
+                    viewModel.updatePassword(new_password)
+                    Toast.makeText(context, "변경에 성공하였습니다!", Toast.LENGTH_SHORT).show()
                 } else {
                     //비밀번호가 틀린경우
                     Toast.makeText(context, "잘못된 비밀번호 입니다!", Toast.LENGTH_SHORT).show()
