@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="end"
+    android:gravity="start"
     android:padding="8dp">
 
     <TextView
@@ -12,9 +12,9 @@
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/received_message_background"
+        android:background="@drawable/sent_message_background"
         android:padding="12dp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="14sp"
-        tools:text="받은 메시지" />
+        tools:text="보낸 메시지" />
 </LinearLayout>

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.opp_e2guana.R
 import com.example.opp_e2guana.model.ChatMessage // ChatMessage 경로 추가
 
-class ChatAdapter(private var messages: List<ChatMessage>) :
+class ChatAdapter(private var messages: List<ChatMessage>,
+                  private val currentUserId: String // 현재 로그인한 사용자 ID 추가
+    ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // View Types
@@ -22,14 +24,23 @@ class ChatAdapter(private var messages: List<ChatMessage>) :
             notifyDataSetChanged() // 데이터 갱신   */
         }
 
-    // Sent Message ViewHolder
+    // 보낸 메세지 ViewHolder
     class SentMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.message_text)
     }
 
-    // Received Message ViewHolder
+    // 받은 메세지 ViewHolder
     class ReceivedMessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val messageText: TextView = view.findViewById(R.id.message_text)
+    }
+
+    // 메시지 타입 구분: 보낸 사람과 로그인한 ID 비교 (수정된 부분)
+    override fun getItemViewType(position: Int): Int {
+        return if (messages[position].senderId == currentUserId) {
+            VIEW_TYPE_SENT
+        } else {
+            VIEW_TYPE_RECEIVED
+        }
     }
 
 

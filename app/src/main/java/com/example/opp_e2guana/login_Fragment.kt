@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
-import com.google.firebase.Firebase
 import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuth
 
 class login_Fragment : Fragment() {
     val viewModel: Userdata_viewmodel by activityViewModels()       //사용자 정보는 나중에 firebase에서 받아와야 합니다!
@@ -55,9 +51,14 @@ class login_Fragment : Fragment() {
                     // ViewModel을 통해 로그인 처리
                     viewModel.loginUser(email, password) { success, errormessage ->
                         if (success) {
+                            val currentUser = FirebaseAuth.getInstance().currentUser
+                            currentUser?.let {
+                                viewModel.setCurrentUser(it.uid) // ViewModel에 현재 로그인한 사용자 ID 설정
                             // Firebase에 있는 사용자 정보(email, password)가 동일하다면 친구목록으로 화면전환
                             findNavController().navigate(R.id.action_login_Fragment_to_friendlistFragment)
-                        } else {
+                            }
+                        }
+                        else {
                             // 사용자 정보와 일치하지 않는다면 (즉, 이메일과 비밀번호가 틀리다면) 오류메시지 출력
                             errorMessageBox.visibility = View.VISIBLE
                             if (errormessage is FirebaseNetworkException) {

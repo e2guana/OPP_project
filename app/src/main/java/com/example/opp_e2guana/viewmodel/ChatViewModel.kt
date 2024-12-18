@@ -18,28 +18,34 @@ class ChatViewModel : ViewModel() {
     private val database = FirebaseDatabase.getInstance().reference
     private var chatRoomId: String = "" // 현재 채팅방 ID
 
-    private val Messages = mutableListOf<ChatMessage>()
-
     //채팅방 ID 설정 및 메시지 불러오기
-    fun setChatRoomId(roomId: String) {
-        chatRoomId = roomId
+    fun setChatRoom(currentUserId: String, friendId: String) {
+        chatRoomId = generateChatRoomId(currentUserId, friendId)
         fetchMessages()
     }
 
+    // 두 ID를 정렬해 고유 채팅방 ID 생성
+    private fun generateChatRoomId(user1: String, user2: String): String {
+        return if (user1 < user2) "${user1}_${user2}" else "${user2}_${user1}"
+    }
+
+
     //Firebase에서 채팅 메시지 실시간 가져오기
     private fun fetchMessages() {
+        if (chatRoomId.isEmpty()) return
+
         val chatRef = database.child("chats").child(chatRoomId)
 
         chatRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                Messages.clear()
+                val messages = mutableListOf<ChatMessage>()
                 for (child in snapshot.children) {
                     val message = child.getValue(ChatMessage::class.java)
                     if (message != null) {
-                        Messages.add(message)
+                        messages.add(message)
                     }
                 }
-                _messages.value = Messages.sortedBy { it.timestamp }
+                _messages.value = messages.sortedBy { it.timestamp }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -50,13 +56,13 @@ class ChatViewModel : ViewModel() {
 
     //Firebase에 메시지 전송
     fun sendMessage(message: String, senderId: String, receiverId: String) {
-        if (chatRoomId.isEmpty()) return
+        if (chatRoomId.isEmpty() || message.isBlank()) return
 
         val newMessage = ChatMessage(
             id = System.currentTimeMillis().toString(),
             senderId = senderId,
             receiverId = receiverId,
-            message = message,
+            message = message.trim(),
             timestamp = System.currentTimeMillis(),
             isSentByMe = true
         )

@@ -31,7 +31,7 @@ class friendlistFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceㅁㄴState: Bundle?
+        savedInstanceState: Bundle?
     ): View? {
         // 바인딩 초기화
         binding = FragmentFriendlistBinding.inflate(inflater, container, false)
@@ -45,11 +45,13 @@ class friendlistFragment : Fragment() {
         recyclerView = binding?.recyclerViewFriends ?: throw IllegalStateException("RecyclerView not found")
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Firebase에서 친구 데이터를 가져와 RecyclerView 업데이트
-        userDataViewModel.fetchFriendsData { friendsList ->
-            filteredFriends = friendsList
-            updateRecyclerView(filteredFriends)
-        }
+        // 친구 목록 가져오기
+        userDataViewModel.fetchFriendsData()
+
+        // 데이터 관찰 및 업데이트
+        filteredFriends = userDataViewModel.show_friendList
+        updateRecyclerView(filteredFriends)
+
 
         // 검색창 기능 추가
         binding?.searcharea?.addTextChangedListener(object : TextWatcher {
@@ -66,6 +68,7 @@ class friendlistFragment : Fragment() {
             }
         })
     }
+
 
     // RecyclerView를 업데이트하는 함수
     private fun updateRecyclerView(friends: List<FriendListAdapter.Friend_Data>) {
