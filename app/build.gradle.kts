@@ -64,6 +64,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage") // Firebase Storage 추가
     implementation("com.squareup.picasso:picasso:2.8")
     implementation ("com.google.android.gms:play-services-basement:latest-version") //강종 오류 해결 위해서 넣음
+    implementation("com.google.firebase:firebase-storage")
+    implementation(libs.firebase.storage.ktx) // Firebase Storage 추가
 
 
     testImplementation(libs.junit)
