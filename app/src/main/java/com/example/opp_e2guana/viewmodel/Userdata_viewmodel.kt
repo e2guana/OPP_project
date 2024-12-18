@@ -52,6 +52,11 @@ class Userdata_viewmodel : ViewModel() {
     private val _selectedFriend = MutableLiveData<FriendListAdapter.Friend_Data>()
     val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
 
+    var user_longitude = MutableLiveData<Double>(0.0)                   //사용자 위도 경도 저장 - j
+
+    var user_latitude = MutableLiveData<Double>(0.0)
+
+
     fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보 불러오기
         _selectedFriend.value = friend
     }
@@ -338,7 +343,7 @@ class Userdata_viewmodel : ViewModel() {
         return password.matches(Regex(passwordPattern))
     }
 
-    private val repository = UserRepository()       //얘는 다른 프로퍼티가 선언되고 나서 나중에 받도록 뒤에 있어야함
+    private val repository = UserRepository()       //얘는 다른 프로퍼티가 선언되고 나서 나중에 받도록 뒤에 있어야함 - j
 
     init {
         repository.observeUser(name)

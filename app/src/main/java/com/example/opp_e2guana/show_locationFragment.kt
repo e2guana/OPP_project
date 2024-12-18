@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.opp_e2guana.databinding.FragmentLoginBinding
 import com.example.opp_e2guana.databinding.FragmentShowLocationBinding
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 import com.google.android.gms.common.api.GoogleApiClient
 
 import com.google.android.gms.maps.*                                        //지도
@@ -35,11 +37,11 @@ import com.google.android.gms.maps.model.MarkerOptions                      //�
     - j
  */
 
-
 class show_locationFragment : Fragment() {
-
     var binding: FragmentShowLocationBinding? = null
     private lateinit var google_map: GoogleMap
+
+    private val userDataViewModel: Userdata_viewmodel by activityViewModels()   //친구 데이터 가져오기 - j
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,20 +54,27 @@ class show_locationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
+            binding?.friendName?.text = friend.name
+            binding?.friendEmail?.text = friend.phone       //이메일 주소 임시로 핸드폰 번호로 표기
+        }
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as? SupportMapFragment  //mapfragment가 null이면 log 출력 <- null이면 로딩이 안되고 튕김 -j
         mapFragment?.getMapAsync { googleMap ->
             google_map = googleMap
 
-            val KAU_address = LatLng(37.600228, 126.865377)         //항공대 -j
+            val KAU_address = LatLng(37.600228, 126.865377)                   //항공대 -j
             val Default_location_KAU = google_map.addMarker(                        //위치가 출력되지 않을 경우 보여줄 위치 -j
                 MarkerOptions()
                     .position(KAU_address)
                     .title("기본 위치")
             )
-            Default_location_KAU?.showInfoWindow()                                  //마커 위에 타이틀을 항상 띄어주는 내용 -j
+            Default_location_KAU?.showInfoWindow()                                           //마커 위에 타이틀을 항상 띄어주는 내용 -j
 
             google_map.moveCamera(CameraUpdateFactory.newLatLngZoom(KAU_address, 17f))        //-1부터 가능 -1은 세계지도로 보여줌. float 형식으로 받음. 17이 제일 적당한듯? -j
         } ?: Log.e("showlocation_map", "Mapfragment is null")
+
+
 
         binding?.backButton?.setOnClickListener {                                                   //뒤로 가기 버튼 -j
             parentFragmentManager.popBackStack() //현재 Fragment를 스택에서 제거하는 함수

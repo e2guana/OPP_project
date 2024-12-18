@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- 위치정보를 얻기 위한 퍼미션 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  <!--정확도가 높은 위치-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!--정확도가 부정확한 위치-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  <!--정확도가 높은 위치, 실제 GPS정보-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> <!--네트워크 기반 위치 정보-->
     <!--인터넷을 통해서 지도를 불러와야 하기에 같이 퍼미션 해줘야 함-->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 포어그라운드 서비스 -->

@@ -1,5 +1,9 @@
 package com.example.opp_e2guana
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +19,10 @@ import com.example.opp_e2guana.databinding.FragmentProfileSettingBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.LOCATION_SERVICE
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -81,17 +89,31 @@ class profile_settingFragment : Fragment() {
         계정 삭제 로직 구현
         계삭 할건지 물어보기 -> 파이어베이스 계삭 요청 -> 삭제 됬다면 True반환되게 설정함 -> 삭제되면 자동으로 로그아웃
          */
+
         binding?.removeButton?.setOnClickListener {                     // 계정 삭제 버튼,
             Log.d("profilesetting", "remove button")
         }
 
+        binding?.locationButton?.setOnClickListener {
+            Log.d("location", "load")
+            (requireActivity() as? MainActivity)?.getLocation()         //메인 액티비티에 있는 location을 실행함
+            Log.d("location", "${viewModel.user_longitude}")
+            Log.d("location", "${viewModel.user_latitude}")
+
+        }
+
     }
 
-    fun showResettingDialog() {                          //팝업창 -j
+    fun showResettingDialog() {                             //팝업창 -j
         val check_password =
-            binding?.checkPassword?.text.toString()        //비밀번호 변경 전 기존 비밀번호 확인 -j
+            binding?.checkPassword?.text.toString()         //비밀번호 변경 전 기존 비밀번호 확인 -j
 
-        MaterialAlertDialogBuilder(requireContext())    //메인 액티비티에서는 Context를 상속 받지만, 프레그먼트에서는 별도로 가져와야함 -j
+        if(check_password.isBlank()) {                      //비밀번호 공백 체크 - j
+            Toast.makeText(context, "변경할려면 기존 비밀번호를 입력하세요", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        MaterialAlertDialogBuilder(requireContext())        //메인 액티비티에서는 Context를 상속 받지만, 프레그먼트에서는 별도로 가져와야함 -j
             .setMessage("변경하시겠습니까?")
             .setNegativeButton("취소") { dialog, _ ->
                 Log.d("profilesetting", "cancle")
@@ -115,9 +137,11 @@ class profile_settingFragment : Fragment() {
             phone = viewModel.show_phone.value ?: "",
             name = viewModel.show_name.value ?: ""
         )
-        val new_password = binding?.editPassword?.text.toString()
+        val new_password = binding?.editPassword?.text.toString().takeIf {
+            it.isNotBlank()
+        } ?: viewModel.show_password.value.toString()                   //새 비밀번호가 공백이면 기존 비밀번호를 넣어서 그대로 유지함 -j
 
-        val name = binding?.editName?.text?.toString()!!?.takeIf {
+        val name = binding?.editName?.text?.toString()?.takeIf {
             it.isNotBlank()
         } ?: original.name //null이거나 공백일 때 기존 이름 유지
         val phone = binding?.editPhone?.text?.toString()?.takeIf {
@@ -127,9 +151,8 @@ class profile_settingFragment : Fragment() {
         Log.e("name", "$name")
         Log.e("phone", "$phone")
 
-        //phone 유효성 검사 함수 사용해야합니다. viewmodel에 isvaildPhone함수 있습니다. 사용법은 signinFragment.kt 참고 -MOON
 
-        if (!viewModel.isValidPhone(phone)) {
+        if (!viewModel.isValidPhone(phone)) {                                                     //연락처 형식 검사
             Toast.makeText(context, "연락처 형식이 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
         }                                                                                         //연락처 검사 이후 문제 없으면 파이어베이스 업로드 - j
         else {
@@ -155,5 +178,3 @@ class profile_settingFragment : Fragment() {
         }
     }
 }
-
-// 비번 안써도 되도록 수정하기, 비번을 안쓰면 널이 들어가서 다음에 로그인할 때 튕기는 현상 발견

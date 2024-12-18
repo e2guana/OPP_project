@@ -1,20 +1,36 @@
 package com.example.opp_e2guana
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.health.connect.datatypes.ExerciseRoute.Location
+import android.location.Address
+import android.location.Geocoder
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.opp_e2guana.databinding.ActivityMainBinding
+import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
 import com.google.firebase.BuildConfig
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
@@ -38,7 +54,6 @@ class MainActivity : AppCompatActivity() {
          - j
          */
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            Log.d("destination","${destination}")
             when (destination.id) {
                 R.id.login_Fragment -> binding.bottomNav.visibility = View.GONE             //로그인 -j
                 R.id.signinFragment -> binding.bottomNav.visibility = View.GONE             //회원가입 -j
@@ -91,5 +106,29 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
+
+    fun getLocation() {                                     //gps 정보 불러오기 - j
+        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
+        //val viewModel: Userdata_viewmodel by viewModels()
+
+
+        if (ActivityCompat.checkSelfPermission(                                     //퍼미션 검사, 어플리케이션 설정에서 미리 허가해서 문제 없음 -j
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
+
+        var gpsLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        Log.d("location", "${gpsLocation?.longitude}")                  //위도 경도 불러오는 것까지는 문제없이 되는 것까지 확인 - j
+        Log.d("location", "${gpsLocation?.latitude}")
+    }
+
+
 }
 
