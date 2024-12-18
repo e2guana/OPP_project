@@ -38,6 +38,11 @@ class Userdata_viewmodel : ViewModel() {
     private val _selectedFriend = MutableLiveData<FriendListAdapter.Friend_Data>()
     val selectedFriend: LiveData<FriendListAdapter.Friend_Data> get() = _selectedFriend
 
+    var user_longitude = MutableLiveData<Double>(0.0)                   //사용자 위도 경도 저장 - j
+
+    var user_latitude = MutableLiveData<Double>(0.0)
+
+
     fun selectFriend(friend: FriendListAdapter.Friend_Data) {   //친구 리스트 정보 불러오기
         _selectedFriend.value = friend
     }

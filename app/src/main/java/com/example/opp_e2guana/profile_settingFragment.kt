@@ -1,5 +1,9 @@
 package com.example.opp_e2guana
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +19,10 @@ import com.example.opp_e2guana.databinding.FragmentProfileSettingBinding
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.LOCATION_SERVICE
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -81,8 +89,17 @@ class profile_settingFragment : Fragment() {
         계정 삭제 로직 구현
         계삭 할건지 물어보기 -> 파이어베이스 계삭 요청 -> 삭제 됬다면 True반환되게 설정함 -> 삭제되면 자동으로 로그아웃
          */
+
         binding?.removeButton?.setOnClickListener {                     // 계정 삭제 버튼,
             Log.d("profilesetting", "remove button")
+        }
+
+        binding?.locationButton?.setOnClickListener {
+            Log.d("location", "load")
+            (requireActivity() as? MainActivity)?.getLocation()         //메인 액티비티에 있는 location을 실행함
+            Log.d("location", "${viewModel.user_longitude}")
+            Log.d("location", "${viewModel.user_latitude}")
+
         }
 
     }

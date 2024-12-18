@@ -105,6 +105,13 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/locationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="내 위치 알리기"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/remove_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -114,6 +121,7 @@
             android:textAllCaps="true"
             android:textColor="#666464"
             android:textStyle="bold" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
