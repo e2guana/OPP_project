@@ -42,6 +42,15 @@ class Userdata_viewmodel : ViewModel() {
         _selectedFriend.value = friend
     }
 
+    //현재 사용자 ID관리 - e2guana 추가
+    private val _currentUserId = MutableLiveData<String>()
+    val currentUserId: LiveData<String> get() = _currentUserId
+
+    fun setCurrentUser(userId: String) {
+        _currentUserId.value = userId
+    }
+
+
     // Firebase Auth & Database 초기화 -MOON
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
@@ -210,7 +219,27 @@ class Userdata_viewmodel : ViewModel() {
         }
     }
 
-    // Firebase에서 다른사용자(친구)의 데이터를 가져오는 함수
+    fun fetchFriendsData() {
+        val friendsRef = database.child("users")
+
+        friendsRef.get().addOnSuccessListener { snapshot ->
+            val friends = snapshot.children.mapNotNull { child ->
+                val userId = child.key ?: return@mapNotNull null
+                val name = child.child("name").getValue(String::class.java) ?: "Unknown"
+                val phone = child.child("phone").getValue(String::class.java) ?: "No Phone"
+                val profileImageUrl = child.child("profileImageUrl").getValue(String::class.java)
+                    ?: "https://example.com/default_profile_image.jpg"
+
+                FriendListAdapter.Friend_Data(userId, name, phone, profileImageUrl)
+            }
+            friendList.postValue(friends) // LiveData에 업데이트
+        }.addOnFailureListener { exception ->
+            Log.e("Firebase", "Failed to fetch friends", exception)
+            friendList.postValue(emptyList()) // 실패 시 빈 리스트
+        }
+    }
+    /*
+    // Firebase에서 다른사용자(친구)의 데이터를 가져오는 함수(원래 함수)
     fun fetchFriendsData(onComplete: (List<FriendListAdapter.Friend_Data>) -> Unit) {
         database.child("users").get().addOnSuccessListener { snapshot ->
             val friends = mutableListOf<FriendListAdapter.Friend_Data>()
@@ -218,7 +247,9 @@ class Userdata_viewmodel : ViewModel() {
                 val userId = child.key ?: continue
                 val name = child.child("name").value as? String ?: "Unknown"
                 val phone = child.child("phone").value as? String ?: "No Phone"
-                friends.add(FriendListAdapter.Friend_Data(userId, name, phone))
+                val profileImageUrl = child.child("profileImageUrl").value as? String
+                    ?: "https://"
+                friends.add(FriendListAdapter.Friend_Data(userId, name, phone, profileImageUrl))
             }
             friendList.value = friends // ViewModel 변수에 데이터 저장
             onComplete(friends) // 데이터를 Fragment로 전달
@@ -226,7 +257,20 @@ class Userdata_viewmodel : ViewModel() {
             Log.e("Firebase", "Failed to fetch friends", it)
             onComplete(emptyList()) // 실패 시 빈 리스트 반환
         }
+    }*/
+
+    //채팅방 생성을 위해 한 명의 Friend 정보를 가져옴
+    fun fetchFriendData(friendId: String, onComplete: (FriendListAdapter.Friend_Data?) -> Unit) {
+        val userRef = database.child("users").child(friendId)
+
+        userRef.get().addOnSuccessListener { snapshot ->
+            val friend = snapshot.getValue(FriendListAdapter.Friend_Data::class.java)
+            onComplete(friend) // 친구 데이터 반환
+        }.addOnFailureListener {
+            onComplete(null) // 실패 시 null 반환
+        }
     }
+
 
     // 닉네임 형식 검증 함수
     fun isValidNickname(nickname: String): String? {

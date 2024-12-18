@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_friendlistFragment_to_profile_settingFragment"
             app:destination="@id/profile_settingFragment" />
+        <action
+            android:id="@+id/action_friendlistFragment_to_chatFragment2"
+            app:destination="@id/chatFragment" />
     </fragment>
 
     <!-- 채팅창 -->
@@ -69,8 +72,9 @@
         <action
             android:id="@+id/action_chatFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
+        <!-- 채팅창 -> 친구 목록 -->
         <action
-            android:id="@+id/action_chatFragment_to_friendlistFragment"
+            android:id="@+id/action_chatFragment_to_friendlistFragment2"
             app:destination="@id/friendlistFragment" />
     </fragment>
 

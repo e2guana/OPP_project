@@ -6,13 +6,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opp_e2guana.databinding.FragmentFriendlistBinding
-import androidx.fragment.app.activityViewModels
 import com.example.opp_e2guana.viewmodel.Userdata_viewmodel
 
 
@@ -46,11 +45,13 @@ class friendlistFragment : Fragment() {
         recyclerView = binding?.recyclerViewFriends ?: throw IllegalStateException("RecyclerView not found")
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Firebase에서 친구 데이터를 가져와 RecyclerView 업데이트
-        userDataViewModel.fetchFriendsData { friendsList ->
-            filteredFriends = friendsList
-            updateRecyclerView(filteredFriends)
-        }
+        // 친구 목록 가져오기
+        userDataViewModel.fetchFriendsData()
+
+        // 데이터 관찰 및 업데이트
+        filteredFriends = userDataViewModel.show_friendList
+        updateRecyclerView(filteredFriends)
+
 
         // 검색창 기능 추가
         binding?.searcharea?.addTextChangedListener(object : TextWatcher {
@@ -67,6 +68,7 @@ class friendlistFragment : Fragment() {
             }
         })
     }
+
 
     // RecyclerView를 업데이트하는 함수
     private fun updateRecyclerView(friends: List<FriendListAdapter.Friend_Data>) {
