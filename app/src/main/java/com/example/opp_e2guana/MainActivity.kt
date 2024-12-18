@@ -107,12 +107,12 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    fun getLocation() {                                 //gps 정보 불러오기
+    fun getLocation() {                                     //gps 정보 불러오기 - j
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         //val viewModel: Userdata_viewmodel by viewModels()
 
 
-        if (ActivityCompat.checkSelfPermission(                                     //퍼미션 검사, 어플리케이션 설정 단에서 미리 허가해서 문제 없음 -j
+        if (ActivityCompat.checkSelfPermission(                                     //퍼미션 검사, 어플리케이션 설정에서 미리 허가해서 문제 없음 -j
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         var gpsLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        Log.d("location", "${gpsLocation?.longitude}")                  //위도 경도 불러오는 것까지는 문제없이 되는 거 확인
+        Log.d("location", "${gpsLocation?.longitude}")                  //위도 경도 불러오는 것까지는 문제없이 되는 것까지 확인 - j
         Log.d("location", "${gpsLocation?.latitude}")
     }
 

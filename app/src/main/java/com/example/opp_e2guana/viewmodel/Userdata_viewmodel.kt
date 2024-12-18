@@ -304,7 +304,7 @@ class Userdata_viewmodel : ViewModel() {
         return password.matches(Regex(passwordPattern))
     }
 
-    private val repository = UserRepository()       //얘는 다른 프로퍼티가 선언되고 나서 나중에 받도록 뒤에 있어야함
+    private val repository = UserRepository()       //얘는 다른 프로퍼티가 선언되고 나서 나중에 받도록 뒤에 있어야함 - j
 
     init {
         repository.observeUser(name)

@@ -63,13 +63,13 @@ class show_locationFragment : Fragment() {
         mapFragment?.getMapAsync { googleMap ->
             google_map = googleMap
 
-            val KAU_address = LatLng(37.600228, 126.865377)         //항공대 -j
+            val KAU_address = LatLng(37.600228, 126.865377)                   //항공대 -j
             val Default_location_KAU = google_map.addMarker(                        //위치가 출력되지 않을 경우 보여줄 위치 -j
                 MarkerOptions()
                     .position(KAU_address)
                     .title("기본 위치")
             )
-            Default_location_KAU?.showInfoWindow()                                  //마커 위에 타이틀을 항상 띄어주는 내용 -j
+            Default_location_KAU?.showInfoWindow()                                           //마커 위에 타이틀을 항상 띄어주는 내용 -j
 
             google_map.moveCamera(CameraUpdateFactory.newLatLngZoom(KAU_address, 17f))        //-1부터 가능 -1은 세계지도로 보여줌. float 형식으로 받음. 17이 제일 적당한듯? -j
         } ?: Log.e("showlocation_map", "Mapfragment is null")
