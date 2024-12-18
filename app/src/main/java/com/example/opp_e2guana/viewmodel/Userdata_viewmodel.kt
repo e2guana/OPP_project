@@ -8,6 +8,7 @@ import com.example.opp_e2guana.FriendListAdapter
 import com.example.opp_e2guana.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class Userdata_viewmodel : ViewModel() {
 
@@ -47,12 +48,15 @@ class Userdata_viewmodel : ViewModel() {
 
     fun set_name(nameData: String) {                     //이름 변경
         Log.d("name", "$nameData")
-        val setName =
-            name.value?.let {                 //name.value를 바꾸지 않고 리포지토리로 발로 올리게 됨. DB의존도가 더 커지는거 아닌가?
+            name.value = name.value?.let {
                 nameData
             } ?: "UNKNOWN"
 
-        repository.postName(setName)
+//        val setName = name.value?.let {                 //name.value를 바꾸지 않고 리포지토리로 발로 올리게 됨. DB의존도가 더 커지는거 아닌가?
+//                nameData
+//            } ?: "UNKNOWN"
+//
+//        repository.postName(setName)
     }
 
     fun set_email(emailData: String) {                   //이메일 변경
@@ -127,6 +131,25 @@ class Userdata_viewmodel : ViewModel() {
                 }
         } else {
             Log.e("Firebase", "No user found in Auth")
+        }
+    }
+
+    // firebase에서 사용자 계정 삭제 - j
+    fun removeUserDataToFirebase(onComplete: (Boolean) -> Unit) {   //콜백을 통해서 T/F를 반환하고, 프로필세팅에서 반환 값보고 로직 추가할 예정
+        val currentUser = auth.currentUser?.let { user ->
+            user.delete()
+                .addOnCompleteListener {  //firebase 문서에서는 it대신 task로 쓰는게 가독성 측면에서 좋아보이나, 아래 if문이 전부이기에 생략합니다.
+                    if(it.isSuccessful) {
+                        Log.d("Firebase", "Remove user data")
+                        onComplete(true)
+                    } else {
+                        Log.e("Firebase", "failed to remove user data")
+                        onComplete(false)
+                    }
+                }
+        } ?: {                                                      // 계정이 null일 경우
+            Log.e("Firebase", "account data is Null!!")
+            onComplete(false)
         }
     }
 

@@ -25,10 +25,8 @@ class UserRepository {
     }
 
     fun postName(newValue: String) {        //리포지토리에 내용이 변경되는걸 반영하는 역할
-        userRef.setValue(newValue)
+        //userRef.setValue(newValue)
+        Log.d("name", "change")
     }
 
 }
-
-//https://gh-coding.tistory.com/4
-//이거 보고 회원가입 작업해보기

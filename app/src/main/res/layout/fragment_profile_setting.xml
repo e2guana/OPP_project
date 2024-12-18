@@ -53,7 +53,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout5"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,6 +102,17 @@
             android:backgroundTint="#F2BD6D"
             android:text="변경하기"
             android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/remove_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="계정 삭제"
+            android:textAllCaps="true"
+            android:textColor="#666464"
             android:textStyle="bold" />
     </LinearLayout>
 

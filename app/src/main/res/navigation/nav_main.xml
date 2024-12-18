@@ -69,6 +69,9 @@
         <action
             android:id="@+id/action_chatFragment_to_show_locationFragment"
             app:destination="@id/show_locationFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_friendlistFragment"
+            app:destination="@id/friendlistFragment" />
     </fragment>
 
     <!-- 프로필 설정 -->
