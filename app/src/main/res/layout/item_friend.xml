@@ -1,31 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="12dp">
 
-    <!-- 친구 이름 표시 -->
+    <!-- 프로필 이미지 -->
+    <ImageView
+        android:id="@+id/imageViewProfile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_profile_icon"
+        android:contentDescription="Profile Image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp" />
+
+    <!-- 친구 이름 -->
     <TextView
         android:id="@+id/textViewFriendName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Friend Name"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:ellipsize="end"
-        android:maxLines="1" />
-
-    <!-- 연락처 표시 -->
-    <TextView
-        android:id="@+id/textViewFriendContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Contact"
+        android:text="Friend Name"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/imageViewProfile"
+        app:layout_constraintTop_toTopOf="@id/imageViewProfile"
+        app:layout_constraintEnd_toStartOf="@id/textViewNotificationCount" />
+
+    <!-- 전화번호 -->
+    <TextView
+        android:id="@+id/textViewFriendPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="PhoneNumber"
         android:textSize="14sp"
-        android:ellipsize="end"
-        android:maxLines="1" />
-</LinearLayout>
+        android:textColor="#888888"
+        app:layout_constraintStart_toStartOf="@id/textViewFriendName"
+        app:layout_constraintTop_toBottomOf="@id/textViewFriendName"
+        app:layout_constraintEnd_toStartOf="@id/textViewNotificationCount" />
+
+    <TextView
+        android:id="@+id/textViewNotificationCount"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:text="2"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/textViewFriendName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/textViewFriendPhone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,7 +42,7 @@ class friendlistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // RecyclerView 초기화 (뷰가 생성된 이후에 설정해야 함)
-        recyclerView = binding?.recyclerViewFriends ?: throw IllegalStateException("RecyclerView not found")
+        recyclerView = binding?.recyclerViewFriends ?: return
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // 친구 목록 가져오기
@@ -72,13 +72,15 @@ class friendlistFragment : Fragment() {
     // RecyclerView를 업데이트하는 함수
     private fun updateRecyclerView(friends: List<FriendListAdapter.Friend_Data>) {
         // 어댑터 설정 및 클릭 리스너 연결
-        adapter = FriendListAdapter(friends.toTypedArray()) { friend ->
+        adapter = FriendListAdapter(friends.toMutableList()) { friend ->
             // 친구를 클릭하면 ViewModel에 선택한 친구를 저장하고 채팅 화면으로 이동
             userDataViewModel.selectFriend(friend)
             findNavController().navigate(R.id.action_friendlistFragment_to_chatFragment)
         }
         recyclerView.adapter = adapter
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -64,7 +64,6 @@ class Userdata_viewmodel : ViewModel() {
         _currentUserId.value = userId
     }
 
-
     // Firebase Auth & Database 초기화 -MOON
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance().reference
@@ -187,8 +186,7 @@ class Userdata_viewmodel : ViewModel() {
             val name = snapshot.child("name").value as? String ?: "UNKNOWN"
             val email = snapshot.child("email").value as? String ?: "Not have email"
             val phone = snapshot.child("phone").value as? String ?: "Not have phoneNumber"
-            val profileImageUrl = snapshot.child("profileImageUrl").value as? String
-                ?: "https://example.com/default_profile_image.jpg" // 기본 이미지 URL
+            val profileImageUrl = snapshot.child("profileImageUrl").value as? String ?: DEFAULT_PROFILE_IMAGE_URL // 기본 이미지 URL
 
             // ViewModel 변수 업데이트
             set_name(name)
@@ -275,28 +273,6 @@ class Userdata_viewmodel : ViewModel() {
             }
     }
 
-
-
-    /*
-    // Firebase에서 다른사용자(친구)의 데이터를 가져오는 함수(원래 함수)
-    fun fetchFriendsData(onComplete: (List<FriendListAdapter.Friend_Data>) -> Unit) {
-        database.child("users").get().addOnSuccessListener { snapshot ->
-            val friends = mutableListOf<FriendListAdapter.Friend_Data>()
-            for (child in snapshot.children) {
-                val userId = child.key ?: continue
-                val name = child.child("name").value as? String ?: "Unknown"
-                val phone = child.child("phone").value as? String ?: "No Phone"
-                val profileImageUrl = child.child("profileImageUrl").value as? String
-                    ?: "https://"
-                friends.add(FriendListAdapter.Friend_Data(userId, name, phone, profileImageUrl))
-            }
-            friendList.value = friends // ViewModel 변수에 데이터 저장
-            onComplete(friends) // 데이터를 Fragment로 전달
-        }.addOnFailureListener {
-            Log.e("Firebase", "Failed to fetch friends", it)
-            onComplete(emptyList()) // 실패 시 빈 리스트 반환
-        }
-    }*/
 
     //채팅방 생성을 위해 한 명의 Friend 정보를 가져옴
     fun fetchFriendData(friendId: String, onComplete: (FriendListAdapter.Friend_Data?) -> Unit) {
