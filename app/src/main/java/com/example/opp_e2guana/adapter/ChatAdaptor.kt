@@ -17,11 +17,6 @@ class ChatAdapter(private var messages: List<ChatMessage>,
     private companion object {
         const val VIEW_TYPE_SENT = 1
         const val VIEW_TYPE_RECEIVED = 2
-
-        /*RecyclerView가 화면에 표시할 레이아웃을 생성
-        fun updateMessages(newMessages: List<ChatMessage>) {
-            messages = newMessages
-            notifyDataSetChanged() // 데이터 갱신   */
         }
 
     // 보낸 메세지 ViewHolder
@@ -34,7 +29,7 @@ class ChatAdapter(private var messages: List<ChatMessage>,
         val messageText: TextView = view.findViewById(R.id.message_text)
     }
 
-    // 메시지 타입 구분: 보낸 사람과 로그인한 ID 비교 (수정된 부분)
+    // 메시지 타입 구분: 보낸 사람과 로그인 한 ID 비교 (수정된 부분)
     override fun getItemViewType(position: Int): Int {
         return if (messages[position].senderId == currentUserId) {
             VIEW_TYPE_SENT
@@ -66,11 +61,6 @@ class ChatAdapter(private var messages: List<ChatMessage>,
         }
     }
 
-    /*누가 보냈는지
-    override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isSentByMe) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
-    }*/
-
     //몇 개가 있는지
     override fun getItemCount(): Int = messages.size
 
@@ -78,14 +68,4 @@ class ChatAdapter(private var messages: List<ChatMessage>,
         messages = newMessages
         notifyDataSetChanged()
     }
-
-    /*
-    //RecycleView의 각 View 관리
-    class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val messageText: TextView = itemView.findViewById(R.id.message_text)
-
-        fun bind(message: ChatMessage) {
-            messageText.text = message.message
-        }
-    }*/
 }

@@ -25,7 +25,6 @@ class chatFragment : Fragment() {
 
     // ViewModel 초기화
     private val chatViewModel: ChatViewModel by viewModels()
-
     // UserDataViewModel 가져오기 (friendlistFragment에서 친구데이터를 가져옴)
     private val userDataViewModel: Userdata_viewmodel by activityViewModels()
 
@@ -60,25 +59,6 @@ class chatFragment : Fragment() {
             binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.chatRecyclerView.adapter = adapter
 
-            /*
-        // 선택된 친구 데이터
-        userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
-            val currentUserId = "user1" // 현재 로그인한 사용자의 ID (실제로는 인증 시스템에서 가져와야 함)
-            chatViewModel.setChatRoom(currentUserId, friend.user_id) // senderId와 receiverId 전달
-
-            // 친구 이름 및 프로필 사진 설정
-            binding.profileName.text = friend.name
-            Picasso.get().load(friend.profileImageUrl).into(binding.profileImage)
-        }*/
-
-            /* 선택된 친구 정보 가져오기
-        userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
-            binding.profileName.text = friend.name
-            // Picasso 또는 Glide를 사용해 프로필 이미지를 설정
-            Picasso.get().load(friend.profileImageUrl).into(binding.profileImage)
-        } */
-
-
             // ViewModel 메세지 불러오기
             chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
                 adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
@@ -103,23 +83,25 @@ class chatFragment : Fragment() {
 
             //뒤로가기 이벤트
             binding.btnBack.setOnClickListener {
-                // FragmentManager를 사용해 현재 Fragment를 스택에서 제거
-                parentFragmentManager.popBackStack()
+                // Navigation을 사용하여 friendlistFragment로 이동
+                findNavController().navigate(R.id.action_chatFragment_to_friendlistFragment2)
             }
 
             // 키보드 이벤트
             binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-                val rect = Rect()
-                binding.root.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = binding.root.rootView.height
-                val keypadHeight = screenHeight - rect.bottom
+                if (_binding != null) { // View가 살아 있는지 체크!!!!!없으면 앱 튕김
+                    val rect = Rect()
+                    binding.root.getWindowVisibleDisplayFrame(rect)
+                    val screenHeight = binding.root.rootView.height
+                    val keypadHeight = screenHeight - rect.bottom
 
-                if (keypadHeight > screenHeight * 0.15) {
-                    // 키보드가 열렸을 때
-                    binding.bottomBar.translationY = -keypadHeight.toFloat()
-                } else {
-                    // 키보드가 닫혔을 때
-                    binding.bottomBar.translationY = 0f
+                    if (keypadHeight > screenHeight * 0.15) {
+                        // 키보드가 열렸을 때
+                        binding.bottomBar.translationY = -keypadHeight.toFloat()
+                    } else {
+                        // 키보드가 닫혔을 때
+                        binding.bottomBar.translationY = 0f
+                    }
                 }
             }
         }
@@ -127,6 +109,8 @@ class chatFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // 키보드 이벤트 리스너 제거
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener {}
         _binding = null // View Binding 메모리 누수 방지
 
     }

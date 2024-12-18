@@ -41,7 +41,7 @@ class Userdata_viewmodel : ViewModel() {
         _selectedFriend.value = friend
     }
 
-    //현재 사용자 ID관리 - e2guana 추가***********************
+    //현재 사용자 ID관리 - e2guana 추가
     private val _currentUserId = MutableLiveData<String>()
     val currentUserId: LiveData<String> get() = _currentUserId
 
