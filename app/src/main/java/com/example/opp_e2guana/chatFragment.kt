@@ -26,11 +26,12 @@ class chatFragment : Fragment() {
     // ViewModel 초기화
     private val chatViewModel: ChatViewModel by viewModels()
 
-    // RecyclerView Adapter 초기화
-    private lateinit var adapter: ChatAdapter
-
     // UserDataViewModel 가져오기 (friendlistFragment에서 친구데이터를 가져옴)
     private val userDataViewModel: Userdata_viewmodel by activityViewModels()
+
+    // RecyclerView Adapter 초기화
+    private lateinit var adapter: ChatAdapter
+    private lateinit var chatRoomId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,17 +50,28 @@ class chatFragment : Fragment() {
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.chatRecyclerView.adapter = adapter
 
-        // ViewModel의 LiveData 관찰
-        chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
-            adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
-            binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
+        // 선택된 친구 데이터
+        userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
+            chatRoomId = generateChatRoomId("user1", friend.user_id)
+            chatViewModel.setChatRoomId(chatRoomId)
+
+            // 친구 이름 및 프로필 사진 설정
+            binding.profileName.text = friend.name
+            Picasso.get().load(friend.profileImageUrl).into(binding.profileImage)
         }
 
-        // 선택된 친구 정보 가져오기
+        /* 선택된 친구 정보 가져오기
         userDataViewModel.selectedFriend.observe(viewLifecycleOwner) { friend ->
             binding.profileName.text = friend.name
             // Picasso 또는 Glide를 사용해 프로필 이미지를 설정
             Picasso.get().load(friend.profileImageUrl).into(binding.profileImage)
+        } */
+
+
+        // ViewModel 메세지 불러오기
+        chatViewModel.messages.observe(viewLifecycleOwner) { messages ->
+            adapter.updateMessages(messages) // 어댑터의 데이터 업데이트 메서드 호출
+            binding.chatRecyclerView.scrollToPosition(messages.size - 1) // 최신 메시지로 스크롤
         }
 
         // 프로필 버튼 눌렀을 때 친구 위치 확인하기 - j
@@ -71,7 +83,7 @@ class chatFragment : Fragment() {
         binding.btnSend.setOnClickListener {
             val message = binding.inputMessage.text.toString() // 메시지 입력
             if (message.isNotBlank()) {
-                chatViewModel.sendMessage(message) // ViewModel에 메시지 추가
+                chatViewModel.sendMessage(message, "user1", userDataViewModel.selectedFriend.value!!.user_id) // ViewModel에 메시지 추가
                 binding.inputMessage.text.clear() // 전송 후 입력창 초기화
             }
         }
@@ -97,6 +109,10 @@ class chatFragment : Fragment() {
                 binding.bottomBar.translationY = 0f
             }
         }
+    }
+
+    private fun generateChatRoomId(user1: String, user2: String): String {
+        return if (user1 < user2) "${user1}_${user2}" else "${user2}_${user1}"
     }
 
     override fun onDestroyView() {
